@@ -1,61 +1,89 @@
 @import "tailwindcss";
 
-/* EcoQuest Custom Color Palette */
-:root {
-  /* Extracted from User's Palette */
-  --color-deep-black: #020604; /* Row 1 Col 1 */
-  --color-dark-moss: #0b1410; /* Row 1 Col 2 */
-  --color-forest-card: #112218; /* Row 2 Col 2 (Card Bg) */
-  --color-leaf-green: #2e5c35; /* Row 3 Col 1 */
-  --color-fresh-green: #4ade80; /* Row 4 Col 1 */
-  --color-neon-pop: #45ff90; /* Row 5 Col 1 (Accent) */
+/* 1. FORCE DARK MODE CLASS STRATEGY 
+   Ini memaksa Tailwind v4 untuk mengaktifkan varian 'dark:' 
+   hanya jika ada class '.dark' di elemen html/body.
+*/
+@variant dark (&:where(.dark, .dark *));
 
-  --color-light-bg: #f2f9f5; /* Light Mode Bg */
+/* 2. DEFINISI TEMA (Warna & Animasi)
+   Di v4, kita mendefinisikan warna custom langsung di sini, 
+   bukan di tailwind.config.js.
+*/
+@theme {
+  /* Colors - Deep Forest Palette */
+  --color-deep-black: #020604;
+  --color-dark-moss: #0b1410;
+  --color-forest-card: #112218;
+  --color-leaf-green: #2e5c35;
+  --color-fresh-green: #4ade80;
+  --color-neon-pop: #45ff90;
+
+  --color-light-bg: #f2f9f5;
   --color-light-card: #ffffff;
 
-  /* Glass Variables */
+  /* Animations */
+  --animate-shine: shine 1.5s infinite;
+  --animate-bounce-in: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+    forwards;
+  --animate-gradient-x: gradient-x 15s ease infinite;
+
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) skewX(-12deg);
+    }
+    100% {
+      transform: translateX(200%) skewX(-12deg);
+    }
+  }
+
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes gradient-x {
+    0%,
+    100% {
+      background-size: 200% 200%;
+      background-position: left center;
+    }
+    50% {
+      background-size: 200% 200%;
+      background-position: right center;
+    }
+  }
+}
+
+/* 3. CUSTOM UTILITIES & VARIABLES 
+*/
+:root {
+  /* Kita definisikan font default di sini */
+  font-family: "Space Grotesk", sans-serif;
+
+  /* Variabel untuk Glassmorphism (Perlu didefinisikan manual karena ada opacity) */
   --glass-border-light: rgba(255, 255, 255, 0.6);
   --glass-surface-light: rgba(242, 249, 245, 0.6);
-
-  --glass-border-dark: rgba(69, 255, 144, 0.15); /* Neon border hint */
-  --glass-surface-dark: rgba(17, 34, 24, 0.7); /* Dark Moss transparency */
+  --glass-border-dark: rgba(69, 255, 144, 0.15);
+  --glass-surface-dark: rgba(17, 34, 24, 0.7);
 }
 
-body {
-  font-family: "Space Grotesk", sans-serif;
-}
-
-/* Glass Panel Effects */
+/* Custom Classes */
 .glass-panel {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .glass-card-hover {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glass-card-hover:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3),
-    0 10px 20px -5px rgba(69, 255, 144, 0.2);
-  border-color: rgba(69, 255, 144, 0.4);
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-deep-black);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-leaf-green);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-neon-pop);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
