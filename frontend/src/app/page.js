@@ -5,8 +5,9 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import HomePage from "@/components/pages/HomePage";
 import AboutPage from "@/components/pages/AboutPage";
-import ContentPage from "@/components/pages/ContentPage";
+import GamePage from "@/components/pages/GamePage";
 import ContactPage from "@/components/pages/ContactPage";
+import GameTransition from "@/components/pages/GameTransition";
 
 // --- MAIN APP ---
 
@@ -16,6 +17,8 @@ export default function EcoQuestApp() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [xp, setXp] = useState(1250);
   const [level, setLevel] = useState(3);
+  const [showTransition, setShowTransition] = useState(false);
+  const [inGameWorld, setInGameWorld] = useState(false);
 
   const toggleTheme = () => setDarkMode(!darkMode);
 
@@ -30,6 +33,21 @@ export default function EcoQuestApp() {
       }
       return newXp;
     });
+  };
+
+  const handleNavigateToGame = () => {
+    setShowTransition(true);
+  };
+
+  const handleTransitionComplete = () => {
+    setShowTransition(false);
+    setInGameWorld(true);
+    setPage("game");
+  };
+
+  const handleExitGameWorld = () => {
+    setInGameWorld(false);
+    setPage("home");
   };
 
   return (
@@ -58,30 +76,58 @@ export default function EcoQuestApp() {
         )}
       </div>
 
+      {/* Transition Screen */}
+      {showTransition && (
+        <GameTransition onComplete={handleTransitionComplete} />
+      )}
+
       <div className="dark:text-[#F2F9F5] text-[#0B1410] h-full">
-        {/* Glass Navbar */}
-        <Navbar
-          darkMode={darkMode}
-          toggleTheme={toggleTheme}
-          page={page}
-          setPage={setPage}
-          menuOpen={menuOpen}
-          setMenuOpen={setMenuOpen}
-          xp={xp}
-        />
+        {/* Glass Navbar - Hide when in game world */}
+        {!inGameWorld && (
+          <Navbar
+            darkMode={darkMode}
+            toggleTheme={toggleTheme}
+            page={page}
+            setPage={(newPage) => {
+              if (newPage === "game") {
+                handleNavigateToGame();
+              } else {
+                setPage(newPage);
+              }
+            }}
+            menuOpen={menuOpen}
+            setMenuOpen={setMenuOpen}
+            xp={xp}
+          />
+        )}
 
         {/* Main Content */}
-        <main className="min-h-[calc(100vh-80px)] pt-8">
-          {page === "home" && <HomePage setPage={setPage} />}
+        <main className={inGameWorld ? "" : "min-h-[calc(100vh-80px)] pt-8"}>
+          {page === "home" && (
+            <HomePage
+              setPage={(newPage) => {
+                if (newPage === "game") {
+                  handleNavigateToGame();
+                } else {
+                  setPage(newPage);
+                }
+              }}
+            />
+          )}
           {page === "about" && <AboutPage />}
-          {page === "content" && (
-            <ContentPage addXp={addXp} userXp={xp} userLevel={level} />
+          {page === "game" && inGameWorld && (
+            <GamePage
+              addXp={addXp}
+              userXp={xp}
+              userLevel={level}
+              onExit={handleExitGameWorld}
+            />
           )}
           {page === "contact" && <ContactPage />}
         </main>
 
-        {/* Footer */}
-        <Footer />
+        {/* Footer - Hide when in game world */}
+        {!inGameWorld && <Footer />}
       </div>
     </div>
   );

@@ -47,10 +47,10 @@ const HomePage = ({ setPage }) => (
         <div className="flex flex-col sm:flex-row gap-5 justify-center pt-8">
           <Button
             variant="primary"
-            onClick={() => setPage("content")}
+            onClick={() => setPage("game")}
             className="text-lg px-8"
           >
-            <Gamepad2 size={24} /> Start Quest
+            <Gamepad2 size={24} /> Enter Game World
           </Button>
           <Button
             variant="secondary"

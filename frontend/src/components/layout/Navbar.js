@@ -32,7 +32,7 @@ const Navbar = ({
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-2 bg-white/50 dark:bg-[#112218]/50 p-1.5 rounded-full border border-[#2E5C35]/10 dark:border-[#45FF90]/10 backdrop-blur-md shadow-inner">
-            {["Home", "About", "Content", "Contact"].map((item) => (
+            {["Home", "About", "Game", "Contact"].map((item) => (
               <button
                 key={item}
                 onClick={() => setPage(item.toLowerCase())}
@@ -97,7 +97,7 @@ const Navbar = ({
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
         <div className="md:hidden absolute top-20 left-0 w-full bg-white/95 dark:bg-[#020604]/95 backdrop-blur-xl border-b border-slate-200 dark:border-[#2E5C35] p-6 flex flex-col gap-4 animate-fade-in">
-          {["Home", "About", "Content", "Contact"].map((item) => (
+          {["Home", "About", "Game", "Contact"].map((item) => (
             <button
               key={item}
               onClick={() => {
