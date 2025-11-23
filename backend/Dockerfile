@@ -9,11 +9,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application
 COPY . .
 
-# Expose port
+# Expose port (Railway will automatically set PORT)
 EXPOSE 5000
 
-# Run with auto-reload (development mode)
-ENV FLASK_ENV=development
-ENV FLASK_DEBUG=1
+# Production settings
+ENV FLASK_ENV=production
+ENV PYTHONUNBUFFERED=1
 
-CMD ["python", "app/main.py"]
+# Use gunicorn for production
+CMD gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 app.main:app

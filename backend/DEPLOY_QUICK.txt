@@ -1,0 +1,87 @@
+╔════════════════════════════════════════════════════════════════╗
+║          🚀 RAILWAY DEPLOYMENT - QUICK REFERENCE              ║
+╚════════════════════════════════════════════════════════════════╝
+
+📋 CHECKLIST SEBELUM DEPLOY
+─────────────────────────────────────────────────────────────────
+✅ Dockerfile sudah diupdate untuk production
+✅ railway.json sudah dibuat
+✅ Procfile sudah dibuat
+✅ app/main.py sudah support PORT dari environment
+✅ .gitignore sudah di-update
+
+
+🎯 LANGKAH DEPLOY (5 MENIT)
+─────────────────────────────────────────────────────────────────
+
+1️⃣ PUSH KE GITHUB
+   cd /home/muhammad-nafal-zakin-rustanto/Project/Technoversary
+   git add .
+   git commit -m "Deploy backend to Railway"
+   git push origin main
+
+2️⃣ SETUP RAILWAY
+   • Login: https://railway.app
+   • New Project → Deploy from GitHub
+   • Select: webdesign_TobilTerbang_technoversary25
+
+3️⃣ CONFIGURE
+   Settings → Root Directory: backend
+   
+   Variables → Add Variables (Copy satu-satu):
+   
+   SUPABASE_URL
+   https://bwkjwflmaavnqaiqkdvf.supabase.co
+   
+   SUPABASE_KEY
+   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ3a2p3ZmxtYWF2bnFhaXFrZHZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NDQzMjIsImV4cCI6MjA3OTEyMDMyMn0.r_SWpIK5d5MIOM8ki4a3-5iAzHMhThnh79WU2EiUFvU
+   
+   SUPABASE_SERVICE_KEY
+   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ3a2p3ZmxtYWF2bnFhaXFrZHZmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzU0NDMyMiwiZXhwIjoyMDc5MTIwMzIyfQ.PHaFU1jSfGsalbZgZdaUeV2MM-Y5SFiHrfbga3ahYhg
+   
+   SECRET_KEY
+   8580f485c23772dd4deda2770a2d4368a63d4d1a3377976f659138d8fe9f02fa
+   
+   JWT_SECRET_KEY
+   c90f51e1f7736944633b6747da1de6b463f8854212222d94f851fdd060dd6b4b
+   
+   FLASK_ENV
+   production
+   
+   FLASK_DEBUG
+   False
+
+4️⃣ DEPLOY & GET URL
+   • Wait 2-5 minutes for build
+   • Settings → Networking → Generate Domain
+   • Copy URL: https://xxx.railway.app
+
+5️⃣ UPDATE CORS (Setelah dapat URL)
+   Variables → Edit CORS_ORIGINS:
+   http://localhost:3000,https://xxx.railway.app,https://your-frontend.vercel.app
+
+6️⃣ TEST
+   curl https://xxx.railway.app/
+
+
+🐛 TROUBLESHOOTING
+─────────────────────────────────────────────────────────────────
+Build Failed       → Check Root Directory = "backend"
+Application Error  → Check Logs, verify environment variables
+CORS Error        → Update CORS_ORIGINS with frontend URL
+Port Error        → Railway auto-sets PORT (sudah handled)
+
+
+📞 SUPPORT
+─────────────────────────────────────────────────────────────────
+Railway Docs:  https://docs.railway.app
+Logs:          Railway Dashboard → View Logs
+Status:        Railway Dashboard → Deployments
+
+
+✨ SELESAI!
+─────────────────────────────────────────────────────────────────
+Backend URL: https://xxx.railway.app
+Update frontend dengan URL ini!
+
+╚════════════════════════════════════════════════════════════════╝
