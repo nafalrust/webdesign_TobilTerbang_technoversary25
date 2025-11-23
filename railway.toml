@@ -1,6 +1,8 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "backend/Dockerfile"
+watchPatterns = ["backend/**"]
 
 [deploy]
-startCommand = "gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 app.main:app"
+startCommand = "cd backend && gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 app.main:app"
+workingDirectory = "backend"
