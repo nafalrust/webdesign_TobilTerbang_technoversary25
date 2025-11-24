@@ -1,3 +1,14 @@
+---
+title: Technoversary Backend
+emoji: 🚀
+colorFrom: blue
+colorTo: purple
+sdk: docker
+sdk_version: "20.10"
+app_file: app/main.py
+pinned: false
+---
+
 # Technoversary Backend API
 
 Backend Flask untuk aplikasi Technoversary dengan integrasi Supabase dan autentikasi.

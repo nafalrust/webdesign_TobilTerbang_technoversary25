@@ -3,3 +3,6 @@ flask-cors==4.0.0
 supabase==2.10.0
 python-dotenv==1.0.0
 gunicorn==21.2.0
+inference-sdk==0.9.0
+pillow==10.1.0
+supervision==0.16.0
