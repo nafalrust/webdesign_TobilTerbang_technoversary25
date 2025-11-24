@@ -73,6 +73,62 @@ def login():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 401
 
+@app.route('/api/auth/google', methods=['POST'])
+def google_auth():
+    """Login/Signup dengan Google OAuth"""
+    data = request.json
+    
+    # Frontend mengirim ID token dari Google
+    id_token = data.get('id_token')
+    
+    if not id_token:
+        return jsonify({
+            "success": False,
+            "error": "ID token required"
+        }), 400
+    
+    try:
+        # Verify dan sign in dengan Google token
+        response = supabase.auth.sign_in_with_id_token({
+            "provider": "google",
+            "token": id_token
+        })
+        
+        return jsonify({
+            "success": True,
+            "token": response.session.access_token,
+            "user": response.user.model_dump() if response.user else None,
+            "message": "Login dengan Google berhasil"
+        }), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 401
+
+@app.route('/api/auth/session', methods=['POST'])
+def set_session():
+    """Set session dari access token & refresh token"""
+    data = request.json
+    
+    access_token = data.get('access_token')
+    refresh_token = data.get('refresh_token')
+    
+    if not access_token or not refresh_token:
+        return jsonify({
+            "success": False,
+            "error": "Access token and refresh token required"
+        }), 400
+    
+    try:
+        # Set session di backend
+        response = supabase.auth.set_session(access_token, refresh_token)
+        
+        return jsonify({
+            "success": True,
+            "user": response.user.model_dump() if response.user else None,
+            "message": "Session set successfully"
+        }), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 401
+
 # ============================================
 # DATABASE
 # ============================================
@@ -249,6 +305,8 @@ def home():
         "endpoints": {
             "signup": "POST /api/signup",
             "login": "POST /api/login",
+            "google_auth": "POST /api/auth/google",
+            "set_session": "POST /api/auth/session",
             "save_data": "POST /api/data/<table_name>",
             "get_data": "GET /api/data/<table_name>",
             "tumbler_detect": "POST /api/tumbler/detect"

@@ -11,9 +11,11 @@ Backend URL:
 1. [Health Check](#1-health-check)
 2. [Signup - Registrasi User](#2-signup---registrasi-user)
 3. [Login - Autentikasi User](#3-login---autentikasi-user)
-4. [Save Data - Simpan Data ke Database](#4-save-data---simpan-data-ke-database)
-5. [Get Data - Ambil Data dari Database](#5-get-data---ambil-data-dari-database)
-6. [Detect Tumbler - Computer Vision](#6-detect-tumbler---computer-vision)
+4. [Google OAuth - Login dengan Google](#4-google-oauth---login-dengan-google)
+5. [Set Session - Set Auth Session](#5-set-session---set-auth-session)
+6. [Save Data - Simpan Data ke Database](#6-save-data---simpan-data-ke-database)
+7. [Get Data - Ambil Data dari Database](#7-get-data---ambil-data-dari-database)
+8. [Detect Tumbler - Computer Vision](#8-detect-tumbler---computer-vision)
 
 ---
 
@@ -392,7 +394,463 @@ function LoginForm() {
 
 ---
 
-## 4. Save Data - Simpan Data ke Database
+## 4. Google OAuth - Login dengan Google
+
+### Endpoint
+```
+POST /api/auth/google
+```
+
+### Tujuan
+Login atau registrasi user menggunakan akun Google. Menghindari input email & password manual.
+
+### Setup Required
+Sebelum menggunakan, **WAJIB** setup Google OAuth di Supabase dan Google Cloud Console.
+
+📖 **Panduan lengkap**: Lihat file `backend/GOOGLE_OAUTH_SETUP.md`
+
+### Request Frontend
+**Method**: `POST`
+
+**Headers**:
+```
+Content-Type: application/json
+```
+
+**Body** (JSON):
+```json
+{
+  "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6..."
+}
+```
+
+`id_token` didapat dari Google Sign-In di frontend.
+
+### Response Success
+**Status**: `200 OK`
+```json
+{
+  "success": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "uuid-string",
+    "email": "user@gmail.com",
+    "user_metadata": {
+      "avatar_url": "https://lh3.googleusercontent.com/...",
+      "full_name": "John Doe"
+    },
+    "created_at": "2025-11-24T..."
+  },
+  "message": "Login dengan Google berhasil"
+}
+```
+
+### Response Error
+**Status**: `401 Unauthorized`
+```json
+{
+  "success": false,
+  "error": "Invalid ID token"
+}
+```
+
+### Contoh Kode Frontend
+
+**React - dengan @react-oauth/google:**
+
+```bash
+npm install @react-oauth/google
+```
+
+```jsx
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+
+function App() {
+  return (
+    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+      <LoginComponent />
+    </GoogleOAuthProvider>
+  );
+}
+
+function LoginComponent() {
+  const handleGoogleSuccess = async (credentialResponse) => {
+    const idToken = credentialResponse.credential;
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_token: idToken })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        // Simpan token
+        localStorage.setItem('access_token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        console.log('Login berhasil:', data.user);
+        alert(`Welcome ${data.user.user_metadata.full_name}!`);
+        
+        // Redirect
+        window.location.href = '/dashboard';
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
+  };
+
+  const handleGoogleError = () => {
+    console.error('Google login failed');
+    alert('Login dengan Google gagal');
+  };
+
+  return (
+    <div>
+      <h2>Login</h2>
+      <GoogleLogin
+        onSuccess={handleGoogleSuccess}
+        onError={handleGoogleError}
+        theme="filled_blue"
+        size="large"
+        text="continue_with"
+      />
+    </div>
+  );
+}
+
+export default App;
+```
+
+**Next.js - Complete Implementation:**
+
+```jsx
+// app/login/page.js
+'use client';
+
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { useRouter } from 'next/navigation';
+
+export default function LoginPage() {
+  const router = useRouter();
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      const response = await fetch(`${API_URL}/api/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id_token: credentialResponse.credential
+        })
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        // Store auth data
+        localStorage.setItem('access_token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        
+        // Redirect to dashboard
+        router.push('/dashboard');
+      } else {
+        alert(`Login failed: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Network error');
+    }
+  };
+
+  return (
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-md">
+          <h1 className="text-2xl font-bold mb-6">Login to Technoversary</h1>
+          
+          <GoogleLogin
+            onSuccess={handleGoogleLogin}
+            onError={() => alert('Login failed')}
+            theme="outline"
+            size="large"
+            text="signin_with"
+            shape="rectangular"
+          />
+        </div>
+      </div>
+    </GoogleOAuthProvider>
+  );
+}
+```
+
+**Environment Variables (.env.local):**
+```env
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+**Alternative: Using Supabase Client (Simpler)**
+
+```jsx
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  'https://bwkjwflmaavnqaiqkdvf.supabase.co',
+  'your-anon-key'
+);
+
+function GoogleLoginButton() {
+  const handleGoogleLogin = async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: 'http://localhost:3000/auth/callback'
+        }
+      });
+
+      if (error) throw error;
+      
+      // User akan diredirect ke Google login
+      // Setelah success, redirect kembali ke callback URL
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  return (
+    <button onClick={handleGoogleLogin}>
+      Sign in with Google
+    </button>
+  );
+}
+```
+
+**Callback Handler (pages/auth/callback.js):**
+```jsx
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  'https://bwkjwflmaavnqaiqkdvf.supabase.co',
+  'your-anon-key'
+);
+
+export default function AuthCallback() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleCallback = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        console.error('Error:', error);
+        router.push('/login');
+        return;
+      }
+
+      if (data.session) {
+        // Store tokens
+        localStorage.setItem('access_token', data.session.access_token);
+        localStorage.setItem('user', JSON.stringify(data.session.user));
+        
+        // Redirect to dashboard
+        router.push('/dashboard');
+      }
+    };
+
+    handleCallback();
+  }, [router]);
+
+  return <div>Loading...</div>;
+}
+```
+
+### Catatan Penting
+- **Setup diperlukan**: Google OAuth harus di-enable di Supabase & Google Cloud Console
+- Google Client ID harus disimpan di environment variables
+- ID token hanya valid beberapa menit
+- User otomatis ter-registrasi jika belum ada akun
+- Avatar dan full name otomatis tersimpan di `user_metadata`
+
+---
+
+## 5. Set Session - Set Auth Session
+
+### Endpoint
+```
+POST /api/auth/session
+```
+
+### Tujuan
+Set session di backend menggunakan access token & refresh token yang sudah ada. Berguna untuk restore session setelah page reload.
+
+### Request Frontend
+**Method**: `POST`
+
+**Headers**:
+```
+Content-Type: application/json
+```
+
+**Body** (JSON):
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "v1.Mk5TFnE4..."
+}
+```
+
+### Response Success
+**Status**: `200 OK`
+```json
+{
+  "success": true,
+  "user": {
+    "id": "uuid-string",
+    "email": "user@example.com"
+  },
+  "message": "Session set successfully"
+}
+```
+
+### Response Error
+**Status**: `401 Unauthorized`
+```json
+{
+  "success": false,
+  "error": "Invalid tokens"
+}
+```
+
+### Contoh Kode Frontend
+
+**JavaScript - Restore Session:**
+```javascript
+async function restoreSession() {
+  const accessToken = localStorage.getItem('access_token');
+  const refreshToken = localStorage.getItem('refresh_token');
+  
+  if (!accessToken || !refreshToken) {
+    console.log('No saved session');
+    return null;
+  }
+
+  try {
+    const response = await fetch('http://localhost:5000/api/auth/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_token: accessToken,
+        refresh_token: refreshToken
+      })
+    });
+
+    const data = await response.json();
+    
+    if (data.success) {
+      console.log('Session restored:', data.user);
+      return data.user;
+    } else {
+      // Token expired, clear storage
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
+
+// Usage on app load
+window.addEventListener('load', async () => {
+  const user = await restoreSession();
+  if (user) {
+    console.log('User logged in:', user.email);
+  } else {
+    console.log('User not logged in');
+  }
+});
+```
+
+**React - Session Provider:**
+```jsx
+import { createContext, useContext, useEffect, useState } from 'react';
+
+const SessionContext = createContext();
+
+export function SessionProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    restoreSession();
+  }, []);
+
+  const restoreSession = async () => {
+    const accessToken = localStorage.getItem('access_token');
+    const refreshToken = localStorage.getItem('refresh_token');
+    
+    if (!accessToken || !refreshToken) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ access_token: accessToken, refresh_token: refreshToken })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setUser(data.user);
+      } else {
+        localStorage.clear();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.clear();
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <SessionContext.Provider value={{ user, logout }}>
+      {children}
+    </SessionContext.Provider>
+  );
+}
+
+export const useSession = () => useContext(SessionContext);
+```
+
+### Catatan Penting
+- Gunakan endpoint ini untuk restore session saat page reload
+- Simpan refresh token untuk bisa refresh access token yang expired
+- Clear tokens jika response error (token expired/invalid)
+
+---
+
+## 6. Save Data - Simpan Data ke Database
 
 ### Endpoint
 ```
