@@ -155,7 +155,7 @@ export default function EcoQuestApp() {
         )}
 
         {/* Main Content */}
-        <main className={inGameWorld ? "" : "min-h-[calc(100vh-80px)] pt-8"}>
+        <main className={inGameWorld ? "" : "min-h-[calc(100vh-80px)] pt-24"}>
           {page === "home" && (
             <HomePage
               setPage={(newPage) => {

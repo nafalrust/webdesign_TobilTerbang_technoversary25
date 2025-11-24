@@ -15,9 +15,10 @@
   --color-deep-black: #020604;
   --color-dark-moss: #0b1410;
   --color-forest-card: #112218;
-  --color-leaf-green: #2e5c35;
+  --color-leaf-green: #3C680B;
   --color-fresh-green: #4ade80;
   --color-neon-pop: #45ff90;
+  --color-darkgreen: #264203;
 
   --color-light-bg: #f2f9f5;
   --color-light-card: #ffffff;
@@ -67,6 +68,7 @@
 
 /* 3. CUSTOM UTILITIES & VARIABLES 
 */
+
 :root {
   /* Kita definisikan font default di sini */
   font-family: "Space Grotesk", sans-serif;

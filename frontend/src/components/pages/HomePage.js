@@ -4,15 +4,16 @@ import Card from "../ui/Card";
 
 // 1. HOME PAGE
 const HomePage = ({ setPage }) => (
-  <div className="space-y-24 pb-20">
+  <div className="space-y-24 pb-20 ">
     {/* Hero Section with INTENSE Palette Gradients */}
     <section className="relative min-h-[85vh] flex items-center justify-center text-center px-4">
+      
       {/* Animated Background Glows - Customized with Palette */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full overflow-hidden -z-10 pointer-events-none">
         {/* Top Right - Neon Pop Glow */}
-        <div className="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] bg-[#45FF90]/20 dark:bg-[#45FF90]/10 rounded-full blur-[120px] animate-pulse"></div>
+        {/* <div className="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] bg-[#45FF90]/20 dark:bg-[#45FF90]/10 rounded-full blur-[120px] animate-pulse"></div> */}
         {/* Bottom Left - Deep Leaf Green */}
-        <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-[#2E5C35]/30 dark:bg-[#2E5C35]/20 rounded-full blur-[100px]"></div>
+        {/* <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-[#2E5C35]/30 dark:bg-[#2E5C35]/20 rounded-full blur-[100px]"></div> */}
         {/* Center - Subtle White/Dark Moss */}
         <div className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[400px] h-[400px] bg-white/30 dark:bg-forest-card rounded-full blur-[80px] opacity-50"></div>
       </div>
@@ -28,9 +29,9 @@ const HomePage = ({ setPage }) => (
           </span>
         </div>
 
-        <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-[0.9] text-slate-900 dark:text-[#F2F9F5] drop-shadow-sm">
+        <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-[0.9] text-darkgreen dark:text-[#F2F9F5] drop-shadow-sm">
           Level Up Your <br />
-          <span className="text-transparent bg-clip-text bg-linear-to-r from-[#2E5C35] via-[#45FF90] to-[#2E5C35] animate-gradient-x bg-size-[200%_auto]">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-darkgreen via-[#D0E7CD] to-darkgreen animate-gradient-x bg-size-[200%_auto]">
             Planet
           </span>
         </h1>

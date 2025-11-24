@@ -28,7 +28,7 @@ const Navbar = ({
     <nav
       className={`fixed z-50 transition-all duration-300 ${
         scrolled
-          ? "top-4 left-4 right-4 rounded-2xl glass-panel border border-[#2E5C35]/20 dark:border-[#45FF90]/20 bg-white/70 dark:bg-[#0B1410]/80 shadow-lg"
+          ? "top- left-10 right-10 rounded-3xl glass-panel border border-[#2E5C35]/20 dark:border-[#45FF90]/20 bg-white/70 dark:bg-[#0B1410]/80 shadow-lg"
           : "top-0 left-0 right-0 rounded-none glass-panel border-b border-[#2E5C35]/10 dark:border-[#45FF90]/10 bg-white/70 dark:bg-[#0B1410]/80"
       }`}
     >
