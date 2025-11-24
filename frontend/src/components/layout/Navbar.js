@@ -1,4 +1,5 @@
-import { Leaf, Sun, Moon, Menu, X, Zap } from "lucide-react";
+import { Leaf, Sun, Moon, Menu, X, Zap, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
 import Button from "../ui/Button";
 
 const Navbar = ({
@@ -9,9 +10,26 @@ const Navbar = ({
   menuOpen,
   setMenuOpen,
   xp,
+  user,
+  onLogout,
 }) => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <nav className="sticky top-0 z-50 glass-panel border-b border-[#2E5C35]/10 dark:border-[#45FF90]/10 bg-white/70 dark:bg-[#0B1410]/80">
+    <nav className={`fixed z-50 transition-all duration-300 ${
+      scrolled 
+        ? "top-4 left-4 right-4 rounded-2xl glass-panel border border-[#2E5C35]/20 dark:border-[#45FF90]/20 bg-white/70 dark:bg-[#0B1410]/80 shadow-lg" 
+        : "top-0 left-0 right-0 rounded-none glass-panel border-b border-[#2E5C35]/10 dark:border-[#45FF90]/10 bg-white/70 dark:bg-[#0B1410]/80"
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo */}
@@ -67,12 +85,31 @@ const Navbar = ({
                 <Moon size={20} className="text-[#2E5C35]" />
               )}
             </button>
-            <Button
-              variant="primary"
-              className="!px-5 !py-2 !text-sm !rounded-lg text-[#020604]"
-            >
-              Login
-            </Button>
+            
+            {/* Conditional Login/Logout Button */}
+            {user ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-[#2E5C35] dark:text-[#45FF90] font-medium">
+                  {user.email}
+                </span>
+                <Button
+                  variant="primary"
+                  onClick={onLogout}
+                  className="!px-5 !py-2 !text-sm !rounded-lg text-[#020604] flex items-center gap-2"
+                >
+                  <LogOut size={16} />
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="primary"
+                onClick={() => setPage("auth")}
+                className="!px-5 !py-2 !text-sm !rounded-lg text-[#020604]"
+              >
+                Login
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -96,7 +133,9 @@ const Navbar = ({
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
-        <div className="md:hidden absolute top-20 left-0 w-full bg-white/95 dark:bg-[#020604]/95 backdrop-blur-xl border-b border-slate-200 dark:border-[#2E5C35] p-6 flex flex-col gap-4 animate-fade-in">
+        <div className={`md:hidden absolute left-0 w-full bg-white/95 dark:bg-[#020604]/95 backdrop-blur-xl border-b border-slate-200 dark:border-[#2E5C35] p-6 flex flex-col gap-4 animate-fade-in transition-all duration-300 ${
+          scrolled ? "top-[76px] rounded-b-2xl" : "top-20"
+        }`}>
           {["Home", "About", "Game", "Contact"].map((item) => (
             <button
               key={item}
@@ -114,9 +153,27 @@ const Navbar = ({
             <span className="font-bold text-[#2E5C35] dark:text-[#45FF90] flex items-center gap-2">
               <Zap size={18} className="fill-current" /> {xp} XP
             </span>
-            <Button variant="primary" className="!py-2 !px-6 !text-sm">
-              Login System
-            </Button>
+            {user ? (
+              <Button
+                variant="primary"
+                onClick={onLogout}
+                className="!py-2 !px-6 !text-sm flex items-center gap-2"
+              >
+                <LogOut size={16} />
+                Logout
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setPage("auth");
+                  setMenuOpen(false);
+                }}
+                className="!py-2 !px-6 !text-sm"
+              >
+                Login
+              </Button>
+            )}
           </div>
         </div>
       )}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import HomePage from "@/components/pages/HomePage";
@@ -8,6 +8,8 @@ import AboutPage from "@/components/pages/AboutPage";
 import GamePage from "@/components/pages/GamePage";
 import ContactPage from "@/components/pages/ContactPage";
 import GameTransition from "@/components/pages/GameTransition";
+import AuthPage from "@/components/pages/AuthPage";
+import authService from "@/lib/authService";
 
 // --- MAIN APP ---
 
@@ -19,8 +21,20 @@ export default function EcoQuestApp() {
   const [level, setLevel] = useState(3);
   const [showTransition, setShowTransition] = useState(false);
   const [inGameWorld, setInGameWorld] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [pendingGameNavigation, setPendingGameNavigation] = useState(false);
 
   const toggleTheme = () => setDarkMode(!darkMode);
+
+  // Check authentication on mount
+  useEffect(() => {
+    const storedUser = authService.getStoredUser();
+    if (storedUser && authService.isAuthenticated()) {
+      setUser(storedUser);
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const addXp = (amount) => {
     setXp((prev) => {
@@ -41,12 +55,46 @@ export default function EcoQuestApp() {
 
   const handleTransitionComplete = () => {
     setShowTransition(false);
-    setInGameWorld(true);
-    setPage("game");
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      // If not authenticated, redirect to auth page and remember to go to game after login
+      setPendingGameNavigation(true);
+      setPage("auth");
+    } else {
+      // If authenticated, proceed to game world
+      setInGameWorld(true);
+      setPage("game");
+    }
   };
 
   const handleExitGameWorld = () => {
     setInGameWorld(false);
+    setPage("home");
+  };
+
+  const handleAuthSuccess = (userData, token) => {
+    setUser(userData);
+    setIsAuthenticated(true);
+    
+    // If user was trying to access game before login, redirect to game world
+    if (pendingGameNavigation) {
+      setPendingGameNavigation(false);
+      setInGameWorld(true);
+      setPage("game");
+    } else {
+      setPage("home");
+    }
+  };
+
+  const handleLogout = async () => {
+    await authService.logout();
+    setUser(null);
+    setIsAuthenticated(false);
+    setPage("home");
+  };
+
+  const handleBackFromAuth = () => {
+    setPendingGameNavigation(false);
     setPage("home");
   };
 
@@ -98,6 +146,8 @@ export default function EcoQuestApp() {
             menuOpen={menuOpen}
             setMenuOpen={setMenuOpen}
             xp={xp}
+            user={user}
+            onLogout={handleLogout}
           />
         )}
 
@@ -124,6 +174,12 @@ export default function EcoQuestApp() {
             />
           )}
           {page === "contact" && <ContactPage />}
+          {page === "auth" && (
+            <AuthPage
+              onAuthSuccess={handleAuthSuccess}
+              onBack={handleBackFromAuth}
+            />
+          )}
         </main>
 
         {/* Footer - Hide when in game world */}
