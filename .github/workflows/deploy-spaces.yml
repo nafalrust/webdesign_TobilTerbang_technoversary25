@@ -33,17 +33,14 @@ jobs:
       
       - name: Deploy to Hugging Face Spaces
         run: |
-          cd backend
+          # Clone the Space repository
+          git clone git@hf.co:spaces/nafalrust/Technoversary hf-space
           
-          # Initialize git if needed
-          if [ ! -d .git ]; then
-            git init
-            git remote add spaces git@hf.co:spaces/nafalrust/Technoversary
-          fi
+          # Copy backend files to the Space repo
+          cp -r backend/* hf-space/
           
-          # Add all files and commit
-          git add -A
+          # Commit and push
+          cd hf-space
+          git add .
           git commit -m "Deploy from GitHub: ${{ github.event.head_commit.message }}" || echo "No changes to commit"
-          
-          # Force push to spaces
-          git push -f spaces HEAD:main
+          git push origin main
