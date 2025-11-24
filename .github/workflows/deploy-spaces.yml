@@ -1,0 +1,49 @@
+name: Deploy Backend to Hugging Face Spaces
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup SSH
+        env:
+          HF_SSH_KEY: ${{ secrets.HF_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$HF_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa huggingface.co >> ~/.ssh/known_hosts
+      
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions Bot"
+      
+      - name: Deploy to Hugging Face Spaces
+        run: |
+          cd backend
+          
+          # Initialize git if needed
+          if [ ! -d .git ]; then
+            git init
+            git remote add spaces git@hf.co:spaces/nafalrust/Technoversary
+          fi
+          
+          # Add all files and commit
+          git add -A
+          git commit -m "Deploy from GitHub: ${{ github.event.head_commit.message }}" || echo "No changes to commit"
+          
+          # Force push to spaces
+          git push -f spaces HEAD:main
