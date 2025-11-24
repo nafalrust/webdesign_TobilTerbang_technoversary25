@@ -42,12 +42,12 @@ const GameSidebar = ({
         className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 ${
           activeSection === item.id
             ? "bg-[#2E5C35] text-[#45FF90] shadow-lg shadow-[#2E5C35]/30"
-            : "text-[#A0C4A8] hover:bg-[#112218] hover:text-white"
+            : "text-[#A0C4A8] hover:bg-forest-card hover:text-white"
         }`}
       >
         <div
           className={`p-2 rounded-lg transition-colors ${
-            activeSection === item.id ? "bg-[#45FF90]/20" : "bg-[#112218]"
+            activeSection === item.id ? "bg-[#45FF90]/20" : "bg-forest-card"
           }`}
         >
           <Icon size={20} />
@@ -65,10 +65,10 @@ const GameSidebar = ({
       {/* Hamburger Button - Always visible on left */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed top-6 left-6 z-[60] p-3 rounded-xl transition-all duration-300 ${
+        className={`fixed top-6 left-6 z-60 p-3 rounded-xl transition-all duration-300 ${
           isOpen
             ? "bg-[#2E5C35] text-[#45FF90]"
-            : "bg-[#112218]/80 text-white backdrop-blur-md border border-[#45FF90]/20"
+            : "bg-forest-card/80 text-white backdrop-blur-md border border-[#45FF90]/20"
         } shadow-lg hover:scale-110`}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -84,8 +84,8 @@ const GameSidebar = ({
           {/* Header */}
           <div className="p-6 border-b border-[#2E5C35]/30">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2E5C35] to-[#45FF90] flex items-center justify-center">
-                <User size={20} className="text-[#020604]" />
+              <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#2E5C35] to-[#45FF90] flex items-center justify-center">
+                <User size={20} className="text-deep-black" />
               </div>
               <div>
                 <h3 className="font-bold text-white text-sm">
@@ -115,14 +115,14 @@ const GameSidebar = ({
 
           {/* Footer */}
           <div className="p-4 border-t border-[#2E5C35]/30">
-            <div className="bg-[#112218] rounded-lg p-3 mb-3">
+            <div className="bg-forest-card rounded-lg p-3 mb-3">
               <div className="flex justify-between items-center mb-1">
                 <span className="text-xs text-[#A0C4A8]">Progress Harian</span>
                 <span className="text-xs font-bold text-[#45FF90]">3/5</span>
               </div>
-              <div className="h-2 bg-[#020604] rounded-full overflow-hidden">
+              <div className="h-2 bg-deep-black rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[#2E5C35] to-[#45FF90]"
+                  className="h-full bg-linear-to-r from-[#2E5C35] to-[#45FF90]"
                   style={{ width: "60%" }}
                 ></div>
               </div>

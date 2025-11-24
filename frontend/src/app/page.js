@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import HomePage from "@/components/pages/HomePage";
@@ -8,6 +8,8 @@ import AboutPage from "@/components/pages/AboutPage";
 import GamePage from "@/components/pages/GamePage";
 import ContactPage from "@/components/pages/ContactPage";
 import GameTransition from "@/components/pages/GameTransition";
+import AuthPage from "@/components/pages/AuthPage";
+import authService from "@/lib/authService";
 
 // --- MAIN APP ---
 
@@ -19,6 +21,21 @@ export default function EcoQuestApp() {
   const [level, setLevel] = useState(3);
   const [showTransition, setShowTransition] = useState(false);
   const [inGameWorld, setInGameWorld] = useState(false);
+  // Initialize user state from stored data to avoid calling setState in effect
+  const [user, setUser] = useState(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = authService.getStoredUser();
+      return storedUser && authService.isAuthenticated() ? storedUser : null;
+    }
+    return null;
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window !== "undefined") {
+      return authService.isAuthenticated();
+    }
+    return false;
+  });
+  const [pendingGameNavigation, setPendingGameNavigation] = useState(false);
 
   const toggleTheme = () => setDarkMode(!darkMode);
 
@@ -41,12 +58,46 @@ export default function EcoQuestApp() {
 
   const handleTransitionComplete = () => {
     setShowTransition(false);
-    setInGameWorld(true);
-    setPage("game");
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      // If not authenticated, redirect to auth page and remember to go to game after login
+      setPendingGameNavigation(true);
+      setPage("auth");
+    } else {
+      // If authenticated, proceed to game world
+      setInGameWorld(true);
+      setPage("game");
+    }
   };
 
   const handleExitGameWorld = () => {
     setInGameWorld(false);
+    setPage("home");
+  };
+
+  const handleAuthSuccess = (userData, token) => {
+    setUser(userData);
+    setIsAuthenticated(true);
+
+    // If user was trying to access game before login, redirect to game world
+    if (pendingGameNavigation) {
+      setPendingGameNavigation(false);
+      setInGameWorld(true);
+      setPage("game");
+    } else {
+      setPage("home");
+    }
+  };
+
+  const handleLogout = async () => {
+    await authService.logout();
+    setUser(null);
+    setIsAuthenticated(false);
+    setPage("home");
+  };
+
+  const handleBackFromAuth = () => {
+    setPendingGameNavigation(false);
     setPage("home");
   };
 
@@ -58,11 +109,11 @@ export default function EcoQuestApp() {
     >
       {/* --- NEW GRADIENT SYSTEM --- */}
       {/* Background Wrapper with Palette Colors */}
-      <div className="fixed inset-0 -z-50 transition-colors duration-700 bg-[#F2F9F5] dark:bg-[#020604]">
+      <div className="fixed inset-0 -z-50 transition-colors duration-700 bg-[#F2F9F5] dark:bg-deep-black">
         {darkMode && (
           <>
             {/* Dark Mode: Deep Forest Space Effect */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-[#112218] via-[#020604] to-[#020604] opacity-80"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-forest-card via-deep-black to-deep-black opacity-80"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,var(--tw-gradient-stops))] from-[#2E5C35]/20 via-transparent to-transparent"></div>
             {/* Subtle noise texture could go here */}
           </>
@@ -98,6 +149,8 @@ export default function EcoQuestApp() {
             menuOpen={menuOpen}
             setMenuOpen={setMenuOpen}
             xp={xp}
+            user={user}
+            onLogout={handleLogout}
           />
         )}
 
@@ -124,6 +177,12 @@ export default function EcoQuestApp() {
             />
           )}
           {page === "contact" && <ContactPage />}
+          {page === "auth" && (
+            <AuthPage
+              onAuthSuccess={handleAuthSuccess}
+              onBack={handleBackFromAuth}
+            />
+          )}
         </main>
 
         {/* Footer - Hide when in game world */}
