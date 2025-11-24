@@ -1,6 +1,8 @@
 # Dokumentasi API Backend - Integrasi Frontend
 
-Backend URL: `http://localhost:5000` (Development) / `https://your-hf-space.co` (Production)
+Backend URL: 
+- **Development**: `http://localhost:5000`
+- **Production (Hugging Face Spaces)**: `https://nafalrust-technoversary.hf.space`
 
 ---
 
@@ -1161,6 +1163,8 @@ export default async function handler(req, res) {
 
 ## 🔧 Environment Variables
 
+### Backend (Development)
+
 Untuk development, backend menggunakan file `.env`:
 
 ```env
@@ -1180,7 +1184,42 @@ CORS_ORIGINS=http://localhost:3000,http://localhost:3001
 ROBOFLOW_API_KEY=your-roboflow-key
 ```
 
-Untuk production di Hugging Face Spaces, set environment variables di Settings → Variables and secrets.
+### Backend (Production - Hugging Face Spaces)
+
+Set environment variables di **Hugging Face Spaces Settings → Variables and secrets**:
+
+1. Buka: https://huggingface.co/spaces/nafalrust/Technoversary/settings
+2. Scroll ke **Variables and secrets**
+3. Tambahkan sebagai **Secrets** (bukan Variables):
+   - `SUPABASE_URL`
+   - `SUPABASE_KEY`
+   - `SUPABASE_SERVICE_KEY`
+   - `ROBOFLOW_API_KEY`
+4. Restart Space
+
+**⚠️ Penting**: 
+- Jangan commit `.env` ke GitHub untuk keamanan
+- Gunakan Secrets di Hugging Face, bukan Variables
+- CORS_ORIGINS akan otomatis include domain frontend production
+
+### Frontend Environment Variables
+
+**Development (.env.local):**
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
+
+**Production:**
+```env
+NEXT_PUBLIC_API_URL=https://nafalrust-technoversary.hf.space
+```
+
+Atau buat logic auto-detect:
+```javascript
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://nafalrust-technoversary.hf.space'
+  : 'http://localhost:5000';
+```
 
 ---
 
@@ -1191,6 +1230,43 @@ Backend sudah dikonfigurasi CORS untuk allow request dari:
 - `http://localhost:3001`
 
 Untuk production, tambahkan domain frontend ke `CORS_ORIGINS` di environment variables.
+
+### Setup Backend URL di Frontend
+
+Buat environment variable untuk switch antara development dan production:
+
+**Next.js (.env.local):**
+```env
+# Development
+NEXT_PUBLIC_API_URL=http://localhost:5000
+
+# Production
+# NEXT_PUBLIC_API_URL=https://nafalrust-technoversary.hf.space
+```
+
+**Usage di Frontend:**
+```javascript
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+async function fetchData() {
+  const response = await fetch(`${API_URL}/api/data/users`);
+  return response.json();
+}
+```
+
+**React/Vite (.env):**
+```env
+# Development
+VITE_API_URL=http://localhost:5000
+
+# Production
+# VITE_API_URL=https://nafalrust-technoversary.hf.space
+```
+
+**Usage:**
+```javascript
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+```
 
 ---
 
@@ -1306,4 +1382,36 @@ curl -X POST http://localhost:5000/api/tumbler/detect \
 
 **Last Updated**: November 24, 2025  
 **Backend Version**: 1.0.0  
-**API Base URL**: `http://localhost:5000` (dev) / `https://your-space.hf.space` (prod)
+**Backend Deployment**: Hugging Face Spaces (Docker)  
+**API Base URL**: 
+- Development: `http://localhost:5000`
+- Production: `https://nafalrust-technoversary.hf.space`
+
+---
+
+## 🚀 Deployment Notes
+
+### Hugging Face Spaces Backend
+
+Backend sudah di-deploy ke Hugging Face Spaces dengan konfigurasi:
+- **Space**: https://huggingface.co/spaces/nafalrust/Technoversary
+- **SDK**: Docker
+- **Port**: 7860 (HF Spaces default)
+- **Auto-deploy**: Push ke folder `backend/` untuk trigger rebuild
+
+### Update Backend di HF Spaces
+
+```bash
+cd backend
+git add .
+git commit -m "Update backend"
+git push hf main
+```
+
+Space akan otomatis rebuild dan restart (1-2 menit).
+
+### Monitoring Backend
+
+- **Status**: https://huggingface.co/spaces/nafalrust/Technoversary
+- **Logs**: Klik tab "Logs" di HF Spaces
+- **Health Check**: https://nafalrust-technoversary.hf.space/
