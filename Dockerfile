@@ -2,19 +2,19 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+# Copy backend files
+COPY ./backend ./
+
 # Install dependencies
-COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application from backend folder
-COPY backend/ .
-
-# Expose port (Railway will automatically set PORT)
+# Expose port
 EXPOSE 5000
 
 # Production settings
 ENV FLASK_ENV=production
 ENV PYTHONUNBUFFERED=1
+ENV PORT=5000
 
 # Use gunicorn for production
 CMD gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 app.main:app
