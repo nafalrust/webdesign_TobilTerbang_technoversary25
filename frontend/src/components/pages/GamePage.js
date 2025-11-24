@@ -127,10 +127,10 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
           onExit={handleExitGameWorld}
         />
 
-        <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-[#020604] via-[#0B1410] to-[#112218]">
+        <div className="min-h-screen flex items-center justify-center px-4 bg-linear-to-br from-deep-black via-[#0B1410] to-forest-card">
           <div className="max-w-md w-full text-center">
             <div className="mb-8">
-              <div className="inline-flex p-6 bg-[#112218] border-2 border-[#2E5C35] rounded-3xl mb-6">
+              <div className="inline-flex p-6 bg-forest-card border-2 border-[#2E5C35] rounded-3xl mb-6">
                 <Lock size={64} className="text-[#45FF90]" />
               </div>
               <h2 className="text-3xl font-bold text-white mb-3">
@@ -144,7 +144,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
             <Button
               variant="primary"
               onClick={handleLogin}
-              className="w-full !py-4 !text-lg"
+              className="w-full py-4! text-lg!"
             >
               Login untuk Bermain
             </Button>
@@ -168,7 +168,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
         onExit={handleExitGameWorld}
       />
 
-      <div className="min-h-screen pl-0 bg-gradient-to-br from-[#020604] via-[#0B1410] to-[#112218]">
+      <div className="min-h-screen pl-0 bg-linear-to-br from-deep-black via-[#0B1410] to-forest-card">
         {/* Main Content Area */}
         <div className="max-w-7xl mx-auto px-4 py-8 md:px-8 md:py-12">
           {/* Main Mission Section */}
@@ -185,7 +185,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
               </div>
 
               {/* Map Level Visualization */}
-              <div className="mb-12 p-8 bg-[#112218]/50 backdrop-blur-md border border-[#2E5C35]/30 rounded-3xl">
+              <div className="mb-12 p-8 bg-forest-card/50 backdrop-blur-md border border-[#2E5C35]/30 rounded-3xl">
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-bold text-white mb-2">
                     MAP LEVEL
@@ -228,7 +228,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
                 {missions.map((mission) => (
                   <div
                     key={mission.id}
-                    className={`bg-[#112218]/80 backdrop-blur-md border border-[#2E5C35]/30 rounded-2xl p-6 transition-all hover:border-[#45FF90] hover:shadow-lg hover:shadow-[#45FF90]/20 ${
+                    className={`bg-forest-card/80 backdrop-blur-md border border-[#2E5C35]/30 rounded-2xl p-6 transition-all hover:border-[#45FF90] hover:shadow-lg hover:shadow-[#45FF90]/20 ${
                       mission.status === "locked" ? "opacity-60" : ""
                     }`}
                   >
@@ -267,7 +267,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
                     <button
                       onClick={() => handleMissionStart(mission)}
                       disabled={mission.status === "locked"}
-                      className="w-full mt-4 py-2 bg-[#2E5C35] text-white rounded-lg font-bold hover:bg-[#45FF90] hover:text-[#020604] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full mt-4 py-2 bg-[#2E5C35] text-white rounded-lg font-bold hover:bg-[#45FF90] hover:text-deep-black transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {mission.status === "locked" ? "Terkunci" : "Mulai Misi"}
                     </button>
@@ -302,7 +302,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
                 {sideQuests.map((quest) => (
                   <div
                     key={quest.id}
-                    className="bg-[#112218]/80 backdrop-blur-md border border-[#2E5C35]/30 rounded-2xl p-6 hover:border-[#45FF90] transition-all"
+                    className="bg-forest-card/80 backdrop-blur-md border border-[#2E5C35]/30 rounded-2xl p-6 hover:border-[#45FF90] transition-all"
                   >
                     <div className="flex items-start gap-4">
                       <div className="text-4xl">{quest.icon}</div>
@@ -341,7 +341,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
                 </p>
               </div>
 
-              <div className="bg-[#112218]/80 backdrop-blur-md border border-[#2E5C35]/30 rounded-3xl overflow-hidden">
+              <div className="bg-forest-card/80 backdrop-blur-md border border-[#2E5C35]/30 rounded-3xl overflow-hidden">
                 {leaderboardData.map((player) => (
                   <div
                     key={player.rank}

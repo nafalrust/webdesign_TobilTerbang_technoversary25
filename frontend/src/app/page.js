@@ -21,20 +21,23 @@ export default function EcoQuestApp() {
   const [level, setLevel] = useState(3);
   const [showTransition, setShowTransition] = useState(false);
   const [inGameWorld, setInGameWorld] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Initialize user state from stored data to avoid calling setState in effect
+  const [user, setUser] = useState(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = authService.getStoredUser();
+      return storedUser && authService.isAuthenticated() ? storedUser : null;
+    }
+    return null;
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window !== "undefined") {
+      return authService.isAuthenticated();
+    }
+    return false;
+  });
   const [pendingGameNavigation, setPendingGameNavigation] = useState(false);
 
   const toggleTheme = () => setDarkMode(!darkMode);
-
-  // Check authentication on mount
-  useEffect(() => {
-    const storedUser = authService.getStoredUser();
-    if (storedUser && authService.isAuthenticated()) {
-      setUser(storedUser);
-      setIsAuthenticated(true);
-    }
-  }, []);
 
   const addXp = (amount) => {
     setXp((prev) => {
@@ -75,7 +78,7 @@ export default function EcoQuestApp() {
   const handleAuthSuccess = (userData, token) => {
     setUser(userData);
     setIsAuthenticated(true);
-    
+
     // If user was trying to access game before login, redirect to game world
     if (pendingGameNavigation) {
       setPendingGameNavigation(false);
@@ -106,11 +109,11 @@ export default function EcoQuestApp() {
     >
       {/* --- NEW GRADIENT SYSTEM --- */}
       {/* Background Wrapper with Palette Colors */}
-      <div className="fixed inset-0 -z-50 transition-colors duration-700 bg-[#F2F9F5] dark:bg-[#020604]">
+      <div className="fixed inset-0 -z-50 transition-colors duration-700 bg-[#F2F9F5] dark:bg-deep-black">
         {darkMode && (
           <>
             {/* Dark Mode: Deep Forest Space Effect */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-[#112218] via-[#020604] to-[#020604] opacity-80"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-forest-card via-deep-black to-deep-black opacity-80"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,var(--tw-gradient-stops))] from-[#2E5C35]/20 via-transparent to-transparent"></div>
             {/* Subtle noise texture could go here */}
           </>

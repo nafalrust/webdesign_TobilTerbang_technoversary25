@@ -140,7 +140,7 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="bg-white dark:bg-[#112218] rounded-3xl shadow-2xl border-4 border-[#2E5C35] overflow-hidden relative min-h-[500px] flex flex-col">
+      <div className="bg-white dark:bg-forest-card rounded-3xl shadow-2xl border-4 border-[#2E5C35] overflow-hidden relative min-h-[500px] flex flex-col">
         {/* Header HUD */}
         <div className="bg-[#2E5C35] p-4 flex justify-between items-center text-white">
           <div className="font-bold text-xl flex items-center gap-2">
@@ -149,7 +149,7 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
           </div>
           <div
             className={`font-mono text-xl font-bold px-4 py-1 rounded-full ${
-              timeLeft < 10 ? "bg-red-500 animate-pulse" : "bg-[#112218]"
+              timeLeft < 10 ? "bg-red-500 animate-pulse" : "bg-forest-card"
             }`}
           >
             {timeLeft}s
@@ -157,7 +157,7 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
         </div>
 
         {/* Game Area */}
-        <div className="flex-1 bg-[#F2F9F5] dark:bg-[#020604] relative flex flex-col items-center justify-center p-4">
+        <div className="flex-1 bg-[#F2F9F5] dark:bg-deep-black relative flex flex-col items-center justify-center p-4">
           {!isPlaying && !isGameOver && (
             <div className="text-center z-10">
               <h2 className="text-3xl font-bold text-[#0B1410] dark:text-white mb-4">
@@ -168,7 +168,7 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
               </p>
               <button
                 onClick={startGame}
-                className="px-8 py-3 bg-[#2E5C35] hover:bg-[#45FF90] hover:text-[#020604] text-white rounded-xl font-bold shadow-lg transform hover:scale-105 transition-all"
+                className="px-8 py-3 bg-[#2E5C35] hover:bg-[#45FF90] hover:text-deep-black text-white rounded-xl font-bold shadow-lg transform hover:scale-105 transition-all"
               >
                 Mulai Game
               </button>
@@ -185,7 +185,7 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
               </p>
               <button
                 onClick={startGame}
-                className="flex items-center gap-2 mx-auto px-6 py-3 bg-[#2E5C35] hover:bg-[#45FF90] hover:text-[#020604] text-white rounded-xl font-bold transition-all"
+                className="flex items-center gap-2 mx-auto px-6 py-3 bg-[#2E5C35] hover:bg-[#45FF90] hover:text-deep-black text-white rounded-xl font-bold transition-all"
               >
                 <RefreshCcw size={20} /> Main Lagi
               </button>
@@ -210,11 +210,11 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
               {/* Current Trash Item */}
               <div className="mb-12 animate-in slide-in-from-top duration-500 cursor-grab active:cursor-grabbing hover:scale-110 transition-transform">
                 <div
-                  className={`w-32 h-32 rounded-full flex items-center justify-center text-6xl shadow-xl border-4 border-white dark:border-[#112218] ${currentTrash.color}`}
+                  className={`w-32 h-32 rounded-full flex items-center justify-center text-6xl shadow-xl border-4 border-white dark:border-forest-card ${currentTrash.color}`}
                 >
                   {currentTrash.icon}
                 </div>
-                <p className="text-center mt-4 font-bold text-[#0B1410] dark:text-[#A0C4A8] bg-white/50 dark:bg-[#112218]/50 rounded-full py-1 backdrop-blur-sm">
+                <p className="text-center mt-4 font-bold text-[#0B1410] dark:text-[#A0C4A8] bg-white/50 dark:bg-forest-card/50 rounded-full py-1 backdrop-blur-sm">
                   {currentTrash.name}
                 </p>
               </div>

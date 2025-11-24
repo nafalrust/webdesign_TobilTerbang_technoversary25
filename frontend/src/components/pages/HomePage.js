@@ -14,11 +14,11 @@ const HomePage = ({ setPage }) => (
         {/* Bottom Left - Deep Leaf Green */}
         <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-[#2E5C35]/30 dark:bg-[#2E5C35]/20 rounded-full blur-[100px]"></div>
         {/* Center - Subtle White/Dark Moss */}
-        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[400px] h-[400px] bg-white/30 dark:bg-[#112218] rounded-full blur-[80px] opacity-50"></div>
+        <div className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[400px] h-[400px] bg-white/30 dark:bg-forest-card rounded-full blur-[80px] opacity-50"></div>
       </div>
 
       <div className="max-w-5xl mx-auto space-y-8 relative z-10">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/30 dark:bg-[#112218]/50 border border-[#2E5C35]/20 dark:border-[#45FF90]/20 backdrop-blur-md shadow-sm animate-fade-in-up">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/30 dark:bg-forest-card/50 border border-[#2E5C35]/20 dark:border-[#45FF90]/20 backdrop-blur-md shadow-sm animate-fade-in-up">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#45FF90] opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#45FF90]"></span>
@@ -30,7 +30,7 @@ const HomePage = ({ setPage }) => (
 
         <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-[0.9] text-slate-900 dark:text-[#F2F9F5] drop-shadow-sm">
           Level Up Your <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2E5C35] via-[#45FF90] to-[#2E5C35] animate-gradient-x bg-[length:200%_auto]">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-[#2E5C35] via-[#45FF90] to-[#2E5C35] animate-gradient-x bg-size-[200%_auto]">
             Planet
           </span>
         </h1>
@@ -62,7 +62,7 @@ const HomePage = ({ setPage }) => (
         </div>
 
         {/* Glass Stats Bar - Using Palette Colors */}
-        <div className="mt-16 p-1 rounded-2xl bg-white/30 dark:bg-[#020604]/40 backdrop-blur-xl border border-white/40 dark:border-[#45FF90]/20 inline-block shadow-2xl">
+        <div className="mt-16 p-1 rounded-2xl bg-white/30 dark:bg-deep-black/40 backdrop-blur-xl border border-white/40 dark:border-[#45FF90]/20 inline-block shadow-2xl">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#2E5C35]/10 dark:divide-[#45FF90]/10">
             {[
               { label: "Active Players", val: "12.5K" },
@@ -88,7 +88,7 @@ const HomePage = ({ setPage }) => (
     <section className="max-w-7xl mx-auto px-4">
       <div className="grid md:grid-cols-3 gap-6">
         <Card className="group">
-          <div className="h-14 w-14 bg-gradient-to-br from-[#2E5C35] to-[#0B1410] rounded-2xl flex items-center justify-center text-[#45FF90] mb-6 shadow-lg shadow-[#2E5C35]/20 group-hover:scale-110 transition-transform border border-[#45FF90]/20">
+          <div className="h-14 w-14 bg-linear-to-br from-[#2E5C35] to-[#0B1410] rounded-2xl flex items-center justify-center text-[#45FF90] mb-6 shadow-lg shadow-[#2E5C35]/20 group-hover:scale-110 transition-transform border border-[#45FF90]/20">
             <Gamepad2 size={28} />
           </div>
           <h3 className="text-2xl font-bold mb-3 text-[#0B1410] dark:text-white">
@@ -102,7 +102,7 @@ const HomePage = ({ setPage }) => (
 
         <Card className="group relative overflow-hidden">
           <div className="absolute top-0 right-0 p-24 bg-[#45FF90]/10 rounded-full blur-2xl -mr-10 -mt-10 transition-all group-hover:bg-[#45FF90]/20"></div>
-          <div className="h-14 w-14 bg-gradient-to-br from-[#45FF90] to-[#2E5C35] rounded-2xl flex items-center justify-center text-[#020604] mb-6 shadow-lg shadow-[#45FF90]/20 group-hover:scale-110 transition-transform relative z-10 border border-[#45FF90]/20">
+          <div className="h-14 w-14 bg-linear-to-br from-[#45FF90] to-[#2E5C35] rounded-2xl flex items-center justify-center text-deep-black mb-6 shadow-lg shadow-[#45FF90]/20 group-hover:scale-110 transition-transform relative z-10 border border-[#45FF90]/20">
             <MapPin size={28} />
           </div>
           <h3 className="text-2xl font-bold mb-3 text-[#0B1410] dark:text-white relative z-10">
@@ -115,7 +115,7 @@ const HomePage = ({ setPage }) => (
         </Card>
 
         <Card className="group">
-          <div className="h-14 w-14 bg-gradient-to-br from-teal-400 to-[#2E5C35] rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-teal-500/20 group-hover:scale-110 transition-transform border border-white/10">
+          <div className="h-14 w-14 bg-linear-to-br from-teal-400 to-[#2E5C35] rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-teal-500/20 group-hover:scale-110 transition-transform border border-white/10">
             <ShieldCheck size={28} />
           </div>
           <h3 className="text-2xl font-bold mb-3 text-[#0B1410] dark:text-white">

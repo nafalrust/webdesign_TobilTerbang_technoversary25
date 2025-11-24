@@ -49,9 +49,9 @@ const GameTransition = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 z-100 flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#020604] via-[#0B1410] to-[#112218] animate-pulse">
+      <div className="absolute inset-0 bg-linear-to-br from-deep-black via-[#0B1410] to-forest-card animate-pulse">
         {/* Animated particles */}
         <div className="absolute inset-0">
           {particles.map((particle) => (
@@ -84,7 +84,7 @@ const GameTransition = ({ onComplete }) => {
         >
           <div className="relative inline-flex mb-8">
             <div className="absolute inset-0 blur-2xl bg-[#45FF90]/30 animate-pulse"></div>
-            <div className="relative bg-gradient-to-br from-[#2E5C35] to-[#112218] p-8 rounded-3xl border-2 border-[#45FF90]/30 shadow-2xl">
+            <div className="relative bg-linear-to-br from-[#2E5C35] to-forest-card p-8 rounded-3xl border-2 border-[#45FF90]/30 shadow-2xl">
               <Leaf size={64} className="text-[#45FF90]" />
             </div>
           </div>
@@ -99,7 +99,7 @@ const GameTransition = ({ onComplete }) => {
           }`}
         >
           <span className="text-white">Entering </span>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#45FF90] to-[#2E5C35]">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-[#45FF90] to-[#2E5C35]">
             Game World
           </span>
         </h1>
@@ -123,13 +123,13 @@ const GameTransition = ({ onComplete }) => {
               : "translate-y-0 opacity-100"
           }`}
         >
-          <div className="bg-[#112218] rounded-full h-3 overflow-hidden border border-[#2E5C35] mb-4 shadow-inner">
+          <div className="bg-forest-card rounded-full h-3 overflow-hidden border border-[#2E5C35] mb-4 shadow-inner">
             <div
-              className="h-full bg-gradient-to-r from-[#2E5C35] via-[#45FF90] to-[#2E5C35] transition-all duration-300 ease-out relative"
+              className="h-full bg-linear-to-r from-[#2E5C35] via-[#45FF90] to-[#2E5C35] transition-all duration-300 ease-out relative"
               style={{ width: `${progress}%` }}
             >
               {/* Shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shine"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent animate-shine"></div>
             </div>
           </div>
           <div className="flex justify-between text-sm">

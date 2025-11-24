@@ -60,9 +60,9 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 z-100 flex items-center justify-center overflow-hidden">
       {/* Animated Background - Similar to GameTransition */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#020604] via-[#0B1410] to-[#112218]">
+      <div className="absolute inset-0 bg-linear-to-br from-deep-black via-[#0B1410] to-forest-card">
         {/* Animated particles */}
         <div className="absolute inset-0">
           {[...Array(20)].map((_, i) => (
@@ -88,23 +88,25 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
         <div className="text-center mb-8">
           <div className="relative inline-flex mb-4">
             <div className="absolute inset-0 blur-2xl bg-[#45FF90]/30 animate-pulse"></div>
-            <div className="relative bg-gradient-to-br from-[#2E5C35] to-[#112218] p-6 rounded-3xl border-2 border-[#45FF90]/30 shadow-2xl">
+            <div className="relative bg-linear-to-br from-[#2E5C35] to-forest-card p-6 rounded-3xl border-2 border-[#45FF90]/30 shadow-2xl">
               <Leaf size={48} className="text-[#45FF90]" />
             </div>
           </div>
           <h1 className="text-4xl font-bold mb-2">
             <span className="text-white">Eco</span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#45FF90] to-[#2E5C35]">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-[#45FF90] to-[#2E5C35]">
               Quest
             </span>
           </h1>
           <p className="text-[#A0C4A8]">
-            {isLogin ? "Selamat datang kembali!" : "Bergabung dengan misi hijau"}
+            {isLogin
+              ? "Selamat datang kembali!"
+              : "Bergabung dengan misi hijau"}
           </p>
         </div>
 
         {/* Auth Form Card */}
-        <div className="bg-[#112218]/80 backdrop-blur-xl border-2 border-[#2E5C35]/30 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-forest-card/80 backdrop-blur-xl border-2 border-[#2E5C35]/30 rounded-2xl p-8 shadow-2xl">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Full Name (Only for Sign Up) */}
             {!isLogin && (
@@ -180,7 +182,7 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
               type="submit"
               variant="primary"
               disabled={isLoading}
-              className="w-full !py-3 !text-base font-bold relative overflow-hidden"
+              className="w-full py-3! text-base! font-bold relative overflow-hidden"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">
