@@ -306,6 +306,167 @@ def detect_tumbler():
         }), 500
 
 # ============================================
+# PROFILE PHOTO
+# ============================================
+
+@app.route('/api/profile/photo', methods=['POST'])
+def upload_profile_photo():
+    """Upload foto profil ke Supabase Storage"""
+    try:
+        # 1. Ambil user_id dari request (bisa dari token atau body)
+        user_id = request.form.get('user_id')
+        if not user_id:
+            # Coba ambil dari Authorization header
+            auth_header = request.headers.get('Authorization')
+            if auth_header:
+                token = auth_header.replace('Bearer ', '')
+                try:
+                    user_response = supabase.auth.get_user(token)
+                    user_id = user_response.user.id
+                except:
+                    return jsonify({
+                        "success": False,
+                        "error": "Invalid token"
+                    }), 401
+            else:
+                return jsonify({
+                    "success": False,
+                    "error": "user_id atau Authorization token required"
+                }), 400
+        
+        # 2. Validasi file
+        if 'file' not in request.files:
+            return jsonify({
+                "success": False,
+                "error": "No file uploaded"
+            }), 400
+        
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({
+                "success": False,
+                "error": "Empty filename"
+            }), 400
+        
+        # 3. Validasi tipe file
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+        file_ext = file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else ''
+        if file_ext not in allowed_extensions:
+            return jsonify({
+                "success": False,
+                "error": f"Invalid file type. Allowed: {', '.join(allowed_extensions)}"
+            }), 400
+        
+        # 4. Baca file
+        file_content = file.read()
+        
+        # 5. Upload ke Supabase Storage dengan nama = user_id
+        bucket_name = 'TobilFotoProfil'
+        filename = f"{user_id}.{file_ext}"
+        
+        # Hapus foto lama jika ada
+        try:
+            supabase.storage.from_(bucket_name).remove([filename])
+        except:
+            pass  # Ignore jika file tidak ada
+        
+        # Upload foto baru
+        supabase.storage.from_(bucket_name).upload(
+            filename,
+            file_content,
+            file_options={"content-type": f"image/{file_ext}"}
+        )
+        
+        # 6. Get public URL
+        photo_url = supabase.storage.from_(bucket_name).get_public_url(filename)
+        
+        return jsonify({
+            "success": True,
+            "message": "Profile photo uploaded successfully",
+            "user_id": user_id,
+            "photo_url": photo_url,
+            "filename": filename
+        }), 200
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/profile/photo/<user_id>', methods=['GET'])
+def get_profile_photo(user_id):
+    """Get URL foto profil user"""
+    try:
+        bucket_name = 'TobilFotoProfil'
+        
+        # Cek semua ekstensi yang mungkin
+        extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']
+        for ext in extensions:
+            filename = f"{user_id}.{ext}"
+            try:
+                # Cek apakah file ada
+                files = supabase.storage.from_(bucket_name).list()
+                if any(f['name'] == filename for f in files):
+                    photo_url = supabase.storage.from_(bucket_name).get_public_url(filename)
+                    return jsonify({
+                        "success": True,
+                        "user_id": user_id,
+                        "photo_url": photo_url,
+                        "filename": filename
+                    }), 200
+            except:
+                continue
+        
+        # Jika tidak ada foto
+        return jsonify({
+            "success": False,
+            "message": "Profile photo not found",
+            "user_id": user_id
+        }), 404
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+@app.route('/api/profile/photo/<user_id>', methods=['DELETE'])
+def delete_profile_photo(user_id):
+    """Hapus foto profil user"""
+    try:
+        bucket_name = 'TobilFotoProfil'
+        
+        # Cek semua ekstensi yang mungkin dan hapus
+        extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp']
+        deleted = False
+        for ext in extensions:
+            filename = f"{user_id}.{ext}"
+            try:
+                supabase.storage.from_(bucket_name).remove([filename])
+                deleted = True
+            except:
+                continue
+        
+        if deleted:
+            return jsonify({
+                "success": True,
+                "message": "Profile photo deleted successfully",
+                "user_id": user_id
+            }), 200
+        else:
+            return jsonify({
+                "success": False,
+                "message": "Profile photo not found"
+            }), 404
+        
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+# ============================================
 # HEALTH CHECK
 # ============================================
 
@@ -320,7 +481,10 @@ def home():
             "set_session": "POST /api/auth/session",
             "save_data": "POST /api/data/<table_name>",
             "get_data": "GET /api/data/<table_name>",
-            "tumbler_detect": "POST /api/tumbler/detect"
+            "tumbler_detect": "POST /api/tumbler/detect",
+            "upload_profile_photo": "POST /api/profile/photo",
+            "get_profile_photo": "GET /api/profile/photo/<user_id>",
+            "delete_profile_photo": "DELETE /api/profile/photo/<user_id>"
         }
     })
 
