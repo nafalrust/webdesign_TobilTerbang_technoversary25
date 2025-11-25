@@ -24,7 +24,7 @@ wheels/
 *.egg
 
 # Environment variables
-# .env (temporarily disabled for HF Spaces)
+.env
 .env.local
 .env.*.local
 

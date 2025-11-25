@@ -6,7 +6,7 @@ Hanya 4 fungsi: Signup, Login, Simpan Data, Ambil Data
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from supabase import create_client
-from inference_sdk import InferenceHTTPClient
+import requests
 import os
 from dotenv import load_dotenv
 import uuid
@@ -28,11 +28,9 @@ supabase = create_client(
     os.getenv('SUPABASE_SERVICE_KEY')  # Service key bypass RLS
 )
 
-# Initialize Roboflow Client
-roboflow_client = InferenceHTTPClient(
-    api_url="https://serverless.roboflow.com",
-    api_key=os.getenv('ROBOFLOW_API_KEY')
-)
+# Roboflow API configuration
+ROBOFLOW_API_KEY = os.getenv('ROBOFLOW_API_KEY')
+ROBOFLOW_MODEL = "tumbler-detection-0xfmo/3"  # Sesuaikan dengan model Anda
 
 # ============================================
 # AUTHENTICATION
@@ -192,13 +190,29 @@ def detect_tumbler():
         image_bytes = file.read()
         image = Image.open(io.BytesIO(image_bytes))
         
-        # 4. Save temporary untuk inference
-        temp_path = f"/tmp/{unique_filename}"
-        image.save(temp_path)
+        # 4. Detect tumbler menggunakan Roboflow HTTP API
+        model_id = request.form.get('model_id', ROBOFLOW_MODEL)
         
-        # 5. Detect tumbler menggunakan Roboflow
-        model_id = request.form.get('model_id', 'pendeteksi-tumbler/5')
-        detection_result = roboflow_client.infer(temp_path, model_id=model_id)
+        # Encode image ke base64 untuk API request
+        buffered = io.BytesIO()
+        image.save(buffered, format="JPEG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+        
+        # Call Roboflow API (POST base64 string directly)
+        roboflow_url = f"https://detect.roboflow.com/{model_id}?api_key={ROBOFLOW_API_KEY}"
+        response = requests.post(
+            roboflow_url,
+            data=img_str,
+            headers={"Content-Type": "application/x-www-form-urlencoded"}
+        )
+        
+        if response.status_code != 200:
+            return jsonify({
+                "success": False,
+                "error": f"Roboflow API error: {response.text}"
+            }), 500
+        
+        detection_result = response.json()
         
         # 6. Check apakah ada tumbler terdeteksi
         predictions = detection_result.get('predictions', [])
@@ -270,10 +284,7 @@ def detect_tumbler():
         # 10. Convert image dengan bbox ke base64 (fallback jika storage gagal)
         img_base64 = base64.b64encode(img_byte_arr.getvalue()).decode('utf-8')
         
-        # 11. Cleanup
-        os.remove(temp_path)
-        
-        # 12. Prepare response
+        # 11. Prepare response
         return jsonify({
             "success": tumbler_detected,
             "detected": tumbler_detected,
