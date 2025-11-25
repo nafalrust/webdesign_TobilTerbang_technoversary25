@@ -16,6 +16,9 @@ Backend URL:
 6. [Save Data - Simpan Data ke Database](#6-save-data---simpan-data-ke-database)
 7. [Get Data - Ambil Data dari Database](#7-get-data---ambil-data-dari-database)
 8. [Detect Tumbler - Computer Vision](#8-detect-tumbler---computer-vision)
+9. [Upload Profile Photo](#9-upload-profile-photo)
+10. [Get Profile Photo URL](#10-get-profile-photo-url)
+11. [Delete Profile Photo](#11-delete-profile-photo)
 
 ---
 
@@ -1838,8 +1841,830 @@ curl -X POST http://localhost:5000/api/tumbler/detect \
 
 ---
 
-**Last Updated**: November 24, 2025  
-**Backend Version**: 1.0.0  
+---
+
+## 9. Upload Profile Photo
+
+### Endpoint
+```
+POST /api/profile/photo
+```
+
+### Tujuan
+Upload atau update foto profil user ke Supabase Storage bucket `TobilFotoProfil`. File dinamai dengan user_id (misal: `1184a6ff.jpg`).
+
+### Setup Required
+**Buat bucket di Supabase Storage:**
+1. Buka Supabase Dashboard → Storage
+2. Create new bucket: `TobilFotoProfil`
+3. Set sebagai **Public** bucket
+
+### Request Frontend
+**Method**: `POST`
+
+**Headers**:
+```
+Content-Type: multipart/form-data
+```
+
+**Authentication** (2 options):
+- Option 1: Kirim `user_id` di form data
+- Option 2: Kirim token di `Authorization: Bearer <token>` header
+
+**Body** (FormData):
+- `file` (required): Image file (jpg, jpeg, png, gif, webp)
+- `user_id` (optional): User ID (required jika tidak ada token)
+
+### Response Success
+**Status**: `200 OK`
+```json
+{
+  "success": true,
+  "message": "Profile photo uploaded successfully",
+  "user_id": "1184a6ff-a95e-47a2-828b-a0b287887802",
+  "photo_url": "https://bwkjwflmaavnqaiqkdvf.supabase.co/storage/v1/object/public/TobilFotoProfil/1184a6ff-a95e-47a2-828b-a0b287887802.jpg",
+  "filename": "1184a6ff-a95e-47a2-828b-a0b287887802.jpg"
+}
+```
+
+### Response Error
+**Status**: `400 Bad Request`
+```json
+{
+  "success": false,
+  "error": "No file uploaded"
+}
+```
+
+```json
+{
+  "success": false,
+  "error": "Invalid file type. Allowed: png, jpg, jpeg, gif, webp"
+}
+```
+
+**Status**: `401 Unauthorized`
+```json
+{
+  "success": false,
+  "error": "Invalid token"
+}
+```
+
+### Contoh Kode Frontend
+
+**JavaScript - Upload dengan user_id:**
+```javascript
+async function uploadProfilePhoto(file, userId) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('user_id', userId);
+  
+  try {
+    const response = await fetch('http://localhost:5000/api/profile/photo', {
+      method: 'POST',
+      body: formData
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      console.log('Photo uploaded:', data.photo_url);
+      return data.photo_url;
+    } else {
+      console.error('Upload failed:', data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error('Network error:', error);
+    return null;
+  }
+}
+
+// Usage
+const fileInput = document.getElementById('photo-input');
+fileInput.addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const photoUrl = await uploadProfilePhoto(file, 'user-id-123');
+    if (photoUrl) {
+      document.getElementById('profile-img').src = photoUrl;
+    }
+  }
+});
+```
+
+**JavaScript - Upload dengan token:**
+```javascript
+async function uploadProfilePhotoWithToken(file, token) {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  try {
+    const response = await fetch('http://localhost:5000/api/profile/photo', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      console.log('Photo uploaded:', data.photo_url);
+      return data;
+    } else {
+      console.error('Upload failed:', data.error);
+      return null;
+    }
+  } catch (error) {
+    console.error('Network error:', error);
+    return null;
+  }
+}
+
+// Usage
+const token = localStorage.getItem('access_token');
+const file = document.getElementById('photo-input').files[0];
+const result = await uploadProfilePhotoWithToken(file, token);
+```
+
+**React - Profile Photo Uploader:**
+```jsx
+import { useState } from 'react';
+
+function ProfilePhotoUploader({ userId }) {
+  const [uploading, setUploading] = useState(false);
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [preview, setPreview] = useState(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = (e) => setPreview(e.target.result);
+      reader.readAsDataURL(file);
+      
+      // Auto upload
+      handleUpload(file);
+    }
+  };
+
+  const handleUpload = async (file) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('user_id', userId);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/profile/photo', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setPhotoUrl(data.photo_url);
+        alert('Photo uploaded successfully!');
+      } else {
+        alert(`Upload failed: ${data.error}`);
+      }
+    } catch (error) {
+      alert('Network error');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="profile-photo-uploader">
+      <h3>Upload Profile Photo</h3>
+      
+      {/* Display current photo */}
+      {(photoUrl || preview) && (
+        <img 
+          src={photoUrl || preview} 
+          alt="Profile"
+          style={{ 
+            width: '150px', 
+            height: '150px', 
+            borderRadius: '50%',
+            objectFit: 'cover'
+          }}
+        />
+      )}
+      
+      {/* File input */}
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        disabled={uploading}
+      />
+      
+      {uploading && <p>Uploading...</p>}
+    </div>
+  );
+}
+
+export default ProfilePhotoUploader;
+```
+
+**React - dengan Drag & Drop:**
+```jsx
+import { useState } from 'react';
+
+function ProfilePhotoDragDrop({ userId }) {
+  const [isDragging, setIsDragging] = useState(false);
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      await uploadPhoto(file);
+    } else {
+      alert('Please drop an image file');
+    }
+  };
+
+  const uploadPhoto = async (file) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('user_id', userId);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/profile/photo', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setPhotoUrl(data.photo_url);
+      } else {
+        alert(data.error);
+      }
+    } catch (error) {
+      alert('Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div
+      onDrop={handleDrop}
+      onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+      onDragLeave={() => setIsDragging(false)}
+      style={{
+        border: isDragging ? '3px dashed #4CAF50' : '2px dashed #ccc',
+        borderRadius: '50%',
+        width: '200px',
+        height: '200px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        position: 'relative'
+      }}
+    >
+      {uploading ? (
+        <p>Uploading...</p>
+      ) : photoUrl ? (
+        <img 
+          src={photoUrl} 
+          alt="Profile"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      ) : (
+        <p style={{ textAlign: 'center', padding: '20px' }}>
+          Drag & drop<br/>profile photo
+        </p>
+      )}
+    </div>
+  );
+}
+```
+
+**Next.js - Complete Component:**
+```jsx
+'use client';
+
+import { useState, useEffect } from 'react';
+
+export default function ProfilePhoto({ userId }) {
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+  // Fetch existing photo on mount
+  useEffect(() => {
+    fetchPhoto();
+  }, [userId]);
+
+  const fetchPhoto = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/profile/photo/${userId}`);
+      const data = await response.json();
+      if (data.success) {
+        setPhotoUrl(data.photo_url);
+      }
+    } catch (error) {
+      console.error('Error fetching photo:', error);
+    }
+  };
+
+  const handleUpload = async (file) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('user_id', userId);
+
+    try {
+      const response = await fetch(`${API_URL}/api/profile/photo`, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setPhotoUrl(data.photo_url);
+      } else {
+        alert(data.error);
+      }
+    } catch (error) {
+      alert('Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      {/* Photo Display */}
+      <div className="relative">
+        <img
+          src={photoUrl || '/default-avatar.png'}
+          alt="Profile"
+          className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
+        />
+        
+        {uploading && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center">
+            <span className="text-white">Uploading...</span>
+          </div>
+        )}
+      </div>
+
+      {/* Upload Button */}
+      <label className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        {photoUrl ? 'Change Photo' : 'Upload Photo'}
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) handleUpload(file);
+          }}
+          disabled={uploading}
+        />
+      </label>
+    </div>
+  );
+}
+```
+
+### Catatan Penting
+- File otomatis **overwrite** jika user upload ulang (nama sama)
+- Maksimal file size: ~10MB (bisa disesuaikan di backend)
+- Allowed extensions: `jpg`, `jpeg`, `png`, `gif`, `webp`
+- File dinamai dengan format: `{user_id}.{extension}`
+- Bucket harus public agar foto bisa diakses langsung
+- Backend menggunakan `SUPABASE_SERVICE_KEY` untuk bypass RLS
+
+---
+
+## 10. Get Profile Photo URL
+
+### Endpoint
+```
+GET /api/profile/photo/<user_id>
+```
+
+### Tujuan
+Mendapatkan URL foto profil user dari Supabase Storage.
+
+### Request Frontend
+**Method**: `GET`
+
+**Headers**: Tidak perlu
+
+**URL Parameter**:
+- `user_id`: User ID (UUID)
+
+### Response Success
+**Status**: `200 OK`
+```json
+{
+  "success": true,
+  "user_id": "1184a6ff-a95e-47a2-828b-a0b287887802",
+  "photo_url": "https://bwkjwflmaavnqaiqkdvf.supabase.co/storage/v1/object/public/TobilFotoProfil/1184a6ff-a95e-47a2-828b-a0b287887802.jpg",
+  "filename": "1184a6ff-a95e-47a2-828b-a0b287887802.jpg"
+}
+```
+
+### Response Not Found
+**Status**: `404 Not Found`
+```json
+{
+  "success": false,
+  "message": "Profile photo not found",
+  "user_id": "1184a6ff-a95e-47a2-828b-a0b287887802"
+}
+```
+
+### Contoh Kode Frontend
+
+**JavaScript - Fetch Photo URL:**
+```javascript
+async function getProfilePhoto(userId) {
+  try {
+    const response = await fetch(`http://localhost:5000/api/profile/photo/${userId}`);
+    const data = await response.json();
+    
+    if (data.success) {
+      return data.photo_url;
+    } else {
+      console.log('No photo found');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
+
+// Usage
+const photoUrl = await getProfilePhoto('user-id-123');
+if (photoUrl) {
+  document.getElementById('profile-img').src = photoUrl;
+} else {
+  document.getElementById('profile-img').src = '/default-avatar.png';
+}
+```
+
+**React - Profile Image Component:**
+```jsx
+import { useEffect, useState } from 'react';
+
+function ProfileImage({ userId, size = 100 }) {
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPhoto();
+  }, [userId]);
+
+  const fetchPhoto = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/profile/photo/${userId}`);
+      const data = await response.json();
+      
+      if (data.success) {
+        setPhotoUrl(data.photo_url);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div style={{ width: size, height: size }}>Loading...</div>;
+  }
+
+  return (
+    <img
+      src={photoUrl || '/default-avatar.png'}
+      alt="Profile"
+      style={{
+        width: size,
+        height: size,
+        borderRadius: '50%',
+        objectFit: 'cover'
+      }}
+    />
+  );
+}
+
+export default ProfileImage;
+```
+
+**React - dengan Fallback:**
+```jsx
+function Avatar({ userId, className = '' }) {
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/profile/photo/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPhotoUrl(data.photo_url);
+        } else {
+          setError(true);
+        }
+      })
+      .catch(() => setError(true));
+  }, [userId]);
+
+  return (
+    <img
+      src={error ? '/default-avatar.png' : (photoUrl || '/loading.gif')}
+      alt="Profile"
+      className={className}
+      onError={() => setError(true)}
+    />
+  );
+}
+```
+
+**Next.js - Image Component:**
+```jsx
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+
+export default function ProfileAvatar({ userId, size = 150 }) {
+  const [photoUrl, setPhotoUrl] = useState('/default-avatar.png');
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+  useEffect(() => {
+    fetch(`${API_URL}/api/profile/photo/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setPhotoUrl(data.photo_url);
+        }
+      })
+      .catch(console.error);
+  }, [userId]);
+
+  return (
+    <Image
+      src={photoUrl}
+      alt="Profile"
+      width={size}
+      height={size}
+      className="rounded-full object-cover"
+    />
+  );
+}
+```
+
+### Catatan Penting
+- Endpoint akan cek semua ekstensi (jpg, jpeg, png, gif, webp)
+- Return 404 jika foto tidak ada (gunakan default avatar di frontend)
+- Photo URL adalah public URL yang bisa langsung diakses
+- Cache photo URL di frontend untuk mengurangi request
+
+---
+
+## 11. Delete Profile Photo
+
+### Endpoint
+```
+DELETE /api/profile/photo/<user_id>
+```
+
+### Tujuan
+Menghapus foto profil user dari Supabase Storage.
+
+### Request Frontend
+**Method**: `DELETE`
+
+**Headers**: Tidak perlu
+
+**URL Parameter**:
+- `user_id`: User ID (UUID)
+
+### Response Success
+**Status**: `200 OK`
+```json
+{
+  "success": true,
+  "message": "Profile photo deleted successfully",
+  "user_id": "1184a6ff-a95e-47a2-828b-a0b287887802"
+}
+```
+
+### Response Not Found
+**Status**: `404 Not Found`
+```json
+{
+  "success": false,
+  "message": "Profile photo not found"
+}
+```
+
+### Contoh Kode Frontend
+
+**JavaScript - Delete Photo:**
+```javascript
+async function deleteProfilePhoto(userId) {
+  try {
+    const response = await fetch(`http://localhost:5000/api/profile/photo/${userId}`, {
+      method: 'DELETE'
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      console.log('Photo deleted');
+      return true;
+    } else {
+      console.log('No photo to delete');
+      return false;
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    return false;
+  }
+}
+
+// Usage
+const deleted = await deleteProfilePhoto('user-id-123');
+if (deleted) {
+  document.getElementById('profile-img').src = '/default-avatar.png';
+}
+```
+
+**React - Delete Button:**
+```jsx
+function DeletePhotoButton({ userId, onDeleted }) {
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!confirm('Delete profile photo?')) return;
+    
+    setDeleting(true);
+    
+    try {
+      const response = await fetch(`http://localhost:5000/api/profile/photo/${userId}`, {
+        method: 'DELETE'
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        alert('Photo deleted');
+        onDeleted?.(); // Callback to update UI
+      } else {
+        alert('No photo to delete');
+      }
+    } catch (error) {
+      alert('Delete failed');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  return (
+    <button 
+      onClick={handleDelete}
+      disabled={deleting}
+      className="text-red-500 hover:text-red-700"
+    >
+      {deleting ? 'Deleting...' : 'Delete Photo'}
+    </button>
+  );
+}
+```
+
+**React - Complete Profile Photo Manager:**
+```jsx
+import { useState, useEffect } from 'react';
+
+function ProfilePhotoManager({ userId }) {
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchPhoto();
+  }, [userId]);
+
+  const fetchPhoto = async () => {
+    const response = await fetch(`http://localhost:5000/api/profile/photo/${userId}`);
+    const data = await response.json();
+    if (data.success) {
+      setPhotoUrl(data.photo_url);
+    }
+  };
+
+  const handleUpload = async (file) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('user_id', userId);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/profile/photo', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      
+      if (data.success) {
+        setPhotoUrl(data.photo_url);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm('Delete photo?')) return;
+    
+    setLoading(true);
+    
+    try {
+      const response = await fetch(`http://localhost:5000/api/profile/photo/${userId}`, {
+        method: 'DELETE'
+      });
+      const data = await response.json();
+      
+      if (data.success) {
+        setPhotoUrl(null);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      {/* Photo Display */}
+      <img
+        src={photoUrl || '/default-avatar.png'}
+        alt="Profile"
+        className="w-32 h-32 rounded-full object-cover"
+      />
+
+      {/* Buttons */}
+      <div className="flex gap-2">
+        <label className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded">
+          {photoUrl ? 'Change' : 'Upload'}
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (file) handleUpload(file);
+            }}
+            disabled={loading}
+          />
+        </label>
+
+        {photoUrl && (
+          <button
+            onClick={handleDelete}
+            disabled={loading}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            Delete
+          </button>
+        )}
+      </div>
+
+      {loading && <p>Processing...</p>}
+    </div>
+  );
+}
+```
+
+### Catatan Penting
+- Delete akan mencoba hapus semua ekstensi yang mungkin
+- Return success jika minimal 1 file berhasil dihapus
+- Tidak error jika foto tidak ada (return 404)
+- Setelah delete, gunakan default avatar di frontend
+
+---
+
+**Last Updated**: November 25, 2025  
+**Backend Version**: 1.1.0  
 **Backend Deployment**: Hugging Face Spaces (Docker)  
 **API Base URL**: 
 - Development: `http://localhost:5000`
