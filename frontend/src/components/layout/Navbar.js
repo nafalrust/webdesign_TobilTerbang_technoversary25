@@ -69,14 +69,6 @@ const Navbar = ({
 
           {/* Right Side Actions */}
           <div className="hidden md:flex items-center gap-4">
-            {/* Glass XP Display */}
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-slate-100/50 dark:bg-forest-card/50 border border-slate-200 dark:border-[#2E5C35] backdrop-blur-md">
-              <Zap size={16} className="text-yellow-500 fill-yellow-500" />
-              <span className="text-sm font-bold font-mono text-[#0B1410] dark:text-[#45FF90]">
-                {xp} XP
-              </span>
-            </div>
-
             <button
               onClick={toggleTheme}
               className="p-2.5 rounded-full hover:bg-slate-200/50 dark:hover:bg-forest-card/50 transition-colors border border-transparent hover:border-slate-300 dark:hover:border-[#2E5C35]"

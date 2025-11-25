@@ -4,9 +4,9 @@ import Card from "../ui/Card";
 
 // 1. HOME PAGE
 const HomePage = ({ setPage }) => (
-  <div className="space-y-24 pb-20">
+  <div className="pb-20">
     {/* Hero Section with INTENSE Palette Gradients */}
-    <section className="relative min-h-[85vh] flex items-center justify-center text-center px-4">
+    <section className="relative min-h-[100vh] flex items-center justify-center text-center px-4">
       {/* Animated Background Glows - Customized with Palette */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full overflow-hidden -z-10 pointer-events-none">
         {/* Top Right - Neon Pop Glow */}
@@ -52,40 +52,91 @@ const HomePage = ({ setPage }) => (
           >
             <Gamepad2 size={24} /> Enter Game World
           </Button>
-          <Button
-            variant="secondary"
-            onClick={() => setPage("about")}
-            className="text-lg px-8"
-          >
-            <Users size={24} /> Join Guild
-          </Button>
         </div>
+      </div>
 
-        {/* Glass Stats Bar - Using Palette Colors */}
-        <div className="mt-16 p-1 rounded-2xl bg-white/30 dark:bg-deep-black/40 backdrop-blur-xl border border-white/40 dark:border-[#45FF90]/20 inline-block shadow-2xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-[#2E5C35]/10 dark:divide-[#45FF90]/10">
-            {[
-              { label: "Active Players", val: "12.5K" },
-              { label: "Trees Planted", val: "8,430" },
-              { label: "Carbon Saved", val: "50T" },
-              { label: "Quests Done", val: "25K+" },
-            ].map((stat, idx) => (
-              <div key={idx} className="px-8 py-4 text-center">
-                <h3 className="text-3xl font-bold text-[#0B1410] dark:text-white">
-                  {stat.val}
-                </h3>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#2E5C35] dark:text-[#A0C4A8] mt-1">
-                  {stat.label}
-                </p>
+      {/* Scroll Down Hint */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-sm text-[#2E5C35] dark:text-[#45FF90] animate-bounce z-10">
+        ▼ Scroll untuk Melihat Bumi
+      </div>
+    </section>
+
+    {/* 3D Earth & Stats Section */}
+    <section className="relative min-h-[100vh] w-full flex items-center justify-center">
+      {/* Gradient Background - matching current theme */}
+      <div className="absolute inset-0 bg-gradient-radial from-slate-200/50 via-slate-100 to-white dark:from-[#1e293b] dark:via-[#0f172a] dark:to-[#0B1410]"></div>
+
+      {/* 3D Earth Container - positioned to overlap with hero */}
+      <div className="absolute top-0 left-0 w-full h-full -translate-y-[25%] md:-translate-y-[25%] scale-110 md:scale-120 z-[1] pointer-events-none">
+        <div className="w-full h-full">
+          <iframe
+            title="Earth"
+            frameBorder="0"
+            allowFullScreen
+            mozallowfullscreen="true"
+            webkitallowfullscreen="true"
+            allow="autoplay; fullscreen; xr-spatial-tracking"
+            xr-spatial-tracking="true"
+            execution-while-out-of-viewport="true"
+            execution-while-not-rendered="true"
+            web-share="true"
+            src="https://sketchfab.com/models/41fc80d85dfd480281f21b74b2de2faa/embed?autospin=1&autostart=1&transparent=1&ui_hint=0"
+            className="w-full h-full border-none"
+          ></iframe>
+        </div>
+      </div>
+
+      {/* Stats Grid - positioned around the Earth */}
+      <div className="relative z-[5] w-full max-w-7xl px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          {/* Left Panel - Stats Cards */}
+          <div className="space-y-5 md:mt-[-100px]">
+            <div className="group bg-white/60 dark:bg-[#0f172a]/60 backdrop-blur-xl border border-[#2E5C35]/20 dark:border-[#45FF90]/20 rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:border-[#45FF90] hover:-translate-y-1 transition-all duration-300">
+              <div className="text-4xl font-bold text-[#2E5C35] dark:text-[#45FF90]">
+                12.5K
               </div>
-            ))}
+              <div className="text-sm font-semibold uppercase tracking-wider text-slate-600 dark:text-[#A0C4A8] mt-2">
+                Active Players
+              </div>
+            </div>
+            <div className="group bg-white/60 dark:bg-[#0f172a]/60 backdrop-blur-xl border border-[#2E5C35]/20 dark:border-[#45FF90]/20 rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:border-[#45FF90] hover:-translate-y-1 transition-all duration-300">
+              <div className="text-4xl font-bold text-[#2E5C35] dark:text-[#45FF90]">
+                8,430
+              </div>
+              <div className="text-sm font-semibold uppercase tracking-wider text-slate-600 dark:text-[#A0C4A8] mt-2">
+                Trees Planted
+              </div>
+            </div>
+          </div>
+
+          {/* Center Spacer - untuk Earth */}
+          <div className="hidden md:block"></div>
+
+          {/* Right Panel - Stats Cards */}
+          <div className="space-y-5 md:mt-[-100px]">
+            <div className="group bg-white/60 dark:bg-[#0f172a]/60 backdrop-blur-xl border border-[#2E5C35]/20 dark:border-[#45FF90]/20 rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:border-[#45FF90] hover:translate-y-1 transition-all duration-300">
+              <div className="text-4xl font-bold text-[#2E5C35] dark:text-[#45FF90]">
+                50T
+              </div>
+              <div className="text-sm font-semibold uppercase tracking-wider text-slate-600 dark:text-[#A0C4A8] mt-2">
+                Carbon Saved
+              </div>
+            </div>
+            <div className="group bg-white/60 dark:bg-[#0f172a]/60 backdrop-blur-xl border border-[#2E5C35]/20 dark:border-[#45FF90]/20 rounded-2xl p-6 shadow-xl hover:shadow-2xl hover:border-[#45FF90] hover:translate-y-1 transition-all duration-300">
+              <div className="text-4xl font-bold text-[#2E5C35] dark:text-[#45FF90]">
+                25K+
+              </div>
+              <div className="text-sm font-semibold uppercase tracking-wider text-slate-600 dark:text-[#A0C4A8] mt-2">
+                Quests Done
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     {/* Features Section */}
-    <section className="max-w-7xl mx-auto px-4">
+    <section className="max-w-7xl mx-auto px-4 mt-24">
       <div className="grid md:grid-cols-3 gap-6">
         <Card className="group">
           <div className="h-14 w-14 bg-linear-to-br from-[#2E5C35] to-[#0B1410] rounded-2xl flex items-center justify-center text-[#45FF90] mb-6 shadow-lg shadow-[#2E5C35]/20 group-hover:scale-110 transition-transform border border-[#45FF90]/20">
