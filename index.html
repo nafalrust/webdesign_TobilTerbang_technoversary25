@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSphere - Environmental Initiative</title>
+    <style>
+        /* --- DEFINISI WARNA (TEMA HIJAU) --- */
+        :root {
+            --primary-green: #4ade80; /* Hijau Mint Cerah */
+            --secondary-green: #22c55e; /* Hijau Daun untuk hover */
+            --bg-tint: rgba(16, 185, 129, 0.2); /* Tint hijau untuk background */
+        }
+
+        /* --- RESET & BASIC SETUP --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #021a0f; /* Fallback background sangat gelap kehijauan */
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* --- 3D BACKGROUND WRAPPER DENGAN TINT HIJAU --- */
+        .sketchfab-bg-wrapper {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .sketchfab-bg {
+            width: 100%; height: 100%;
+            opacity: 0.6; /* Sedikit transparan */
+            filter: saturate(1.2); /* Sedikit meningkatkan saturasi warna bumi asli */
+        }
+        
+        /* Ini adalah lapisan hijau di atas bumi agar temanya terasa */
+        .bg-green-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, var(--bg-tint), rgba(0,0,0,0.6));
+            mix-blend-mode: overlay; /* Mencampurkan warna hijau ke model 3D */
+        }
+
+        .sketchfab-bg iframe {
+            width: 100%; height: 100%; border: none;
+        }
+
+        /* --- INTERACTIVE CURSOR GLOW (HIJAU) --- */
+        .cursor-glow {
+            position: fixed;
+            width: 400px; height: 400px;
+            /* Warna glow diubah ke hijau */
+            background: radial-gradient(circle, rgba(74, 222, 128, 0.2), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            mix-blend-mode: screen;
+            transition: transform 0.1s ease;
+        }
+
+        /* --- LAYOUT & SECTIONS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            animation: slideDown 1s ease forwards;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--primary-green); /* Logo Hijau */
+            text-transform: uppercase;
+            display: flex; align-items: center; gap: 10px;
+        }
+        
+        .logo span { font-size: 2rem; } /* Icon daun kecil */
+
+        nav ul {
+            display: flex; list-style: none; gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-green); /* Hover Hijau */
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 90vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: flex-start;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            /* Gradient Putih ke Hijau */
+            background: linear-gradient(to right, #fff, var(--primary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0; transform: translateY(30px);
+        }
+
+        .hero p {
+            font-size: 1.2rem; max-width: 500px;
+            color: #ccc; margin-bottom: 40px;
+            opacity: 0; transform: translateY(30px); transition-delay: 0.2s;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            /* Warna tombol disesuaikan tema hijau */
+            background: rgba(74, 222, 128, 0.1); 
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            opacity: 0; transform: translateY(30px); transition-delay: 0.4s;
+            text-decoration: none; display: inline-block;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background: var(--primary-green);
+            color: #002914; /* Teks jadi gelap saat hover */
+            box-shadow: 0 0 30px rgba(74, 222, 128, 0.5); /* Glow hijau kuat */
+        }
+
+        /* --- GLASS CARDS (Tema Hijau) --- */
+        .features {
+            padding: 100px 0;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(20, 50, 30, 0.3); /* Background agak kehijauan gelap */
+            border: 1px solid rgba(74, 222, 128, 0.1); /* Border hijau tipis */
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0; transform: translateY(50px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-green);
+            background: rgba(74, 222, 128, 0.05);
+            box-shadow: 0 10px 30px rgba(74, 222, 128, 0.1); /* Shadow hijau */
+        }
+
+        .card h3 {
+            font-size: 1.5rem; margin-bottom: 15px;
+            color: var(--primary-green); /* Judul card hijau */
+        }
+
+        .card p {
+            line-height: 1.6; color: #bbb;
+        }
+
+        /* --- ANIMATION UTILITY (Sama seperti sebelumnya) --- */
+        .visible {
+            opacity: 1 !important; transform: translateY(0) !important;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <div class="sketchfab-bg-wrapper">
+        <div class="sketchfab-bg">
+            <iframe title="EARTH" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/5ce4b1465c83432d9bb7e3c30232c02b/embed?autostart=1&ui_controls=0&ui_infos=0&ui_inspector=0&ui_stop=0&ui_watermark=0"> </iframe> 
+        </div>
+        <div class="bg-green-overlay"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo"><span>🌿</span> EcoSphere</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#info">Konservasi</a></li>
+                    <li><a href="#">Aksi Nyata</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h1 class="animate-on-load">Pulihkan<br>Bumi Kita</h1>
+            <p class="animate-on-load">Menghubungkan teknologi dan alam untuk masa depan yang berkelanjutan. Mari jaga satu-satunya rumah yang kita miliki.</p>
+            <a href="#info" class="btn animate-on-load">Mulai Berkontribusi</a>
+        </section>
+
+        <section id="info" class="features">
+            <div class="card scroll-trigger">
+                <h3>Reforestasi Digital</h3>
+                <p>Menggunakan pemetaan satelit untuk memantau dan mempercepat penanaman kembali hutan di area kritis di seluruh dunia.</p>
+            </div>
+            <div class="card scroll-trigger" style="transition-delay: 0.1s;">
+                <h3>Energi Hijau</h3>
+                <p>Memvisualisasikan potensi energi terbarukan (surya, angin, air) untuk mempercepat transisi dari bahan bakar fosil.</p>
+            </div>
+            <div class="card scroll-trigger" style="transition-delay: 0.2s;">
+                <h3>Pembersihan Lautan</h3>
+                <p>Melacak pergerakan sampah plastik di samudra secara real-time untuk mengoordinasikan upaya pembersihan yang efektif.</p>
+            </div>
+        </section>
+        
+        <section style="height: 30vh; display: flex; align-items: center; justify-content: center; border-top: 1px solid rgba(74, 222, 128, 0.2);">
+            <p style="color: var(--primary-green); opacity: 0.7;">&copy; 2024 EcoSphere Initiative. For a greener tomorrow.</p>
+        </section>
+    </div>
+
+    <script>
+        // SCRIPT SAMA PERSIS DENGAN KODE PERTAMA
+        
+        // 1. CURSOR GLOW EFFECT
+        const cursor = document.getElementById('cursorGlow');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // 2. HERO ANIMATIONS (On Load)
+        window.addEventListener('load', () => {
+            const loaders = document.querySelectorAll('.animate-on-load');
+            loaders.forEach(el => el.classList.add('visible'));
+        });
+
+        // 3. SCROLL ANIMATIONS (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.scroll-trigger').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 4. PARALLAX EFFECT
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const heroText = document.querySelector('.hero h1');
+            if(heroText) {
+                heroText.style.transform = `translateY(${scrollY * 0.3}px)`;
+            }
+        });
+    </script>
+</body>
+</html>

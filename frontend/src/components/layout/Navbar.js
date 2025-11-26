@@ -24,7 +24,7 @@ const Navbar = ({
 
   return (
     <nav
-      className={`fixed z-50 transition-all duration-300 ${
+      className={`fixed z-65 transition-all duration-300 ${
         scrolled
           ? "top-4 left-4 right-4 rounded-2xl glass-panel border border-[#45FF90]/20 bg-[#0B1410]/80 shadow-lg"
           : "top-0 left-0 right-0 rounded-none glass-panel border-b border-[#45FF90]/10 bg-[#0B1410]/80"
@@ -67,13 +67,6 @@ const Navbar = ({
 
           {/* Right Side Actions */}
           <div className="hidden md:flex items-center gap-4">
-            {/* Glass XP Display */}
-            <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-forest-card/50 border border-[#2E5C35] backdrop-blur-md">
-              <Zap size={16} className="text-yellow-500 fill-yellow-500" />
-              <span className="text-sm font-bold font-mono text-[#45FF90]">
-                {xp} XP
-              </span>
-            </div>
 
             {/* Conditional Login/Logout Button */}
             {user ? (
