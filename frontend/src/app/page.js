@@ -14,7 +14,6 @@ import authService from "@/lib/authService";
 // --- MAIN APP ---
 
 export default function EcoQuestApp() {
-  const [darkMode, setDarkMode] = useState(true);
   const [page, setPage] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [xp, setXp] = useState(1250);
@@ -36,8 +35,6 @@ export default function EcoQuestApp() {
     return false;
   });
   const [pendingGameNavigation, setPendingGameNavigation] = useState(false);
-
-  const toggleTheme = () => setDarkMode(!darkMode);
 
   const addXp = (amount) => {
     setXp((prev) => {
@@ -102,29 +99,12 @@ export default function EcoQuestApp() {
   };
 
   return (
-    <div
-      className={`min-h-screen transition-colors duration-700 ${
-        darkMode ? "dark" : ""
-      }`}
-    >
-      {/* --- NEW GRADIENT SYSTEM --- */}
-      {/* Background Wrapper with Palette Colors */}
-      <div className="fixed inset-0 -z-50 transition-colors duration-700 bg-[#F2F9F5] dark:bg-deep-black">
-        {darkMode && (
-          <>
-            {/* Dark Mode: Deep Forest Space Effect */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-forest-card via-deep-black to-deep-black opacity-80"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,var(--tw-gradient-stops))] from-[#2E5C35]/20 via-transparent to-transparent"></div>
-            {/* Subtle noise texture could go here */}
-          </>
-        )}
-        {!darkMode && (
-          <>
-            {/* Light Mode: Fresh Morning Mist Effect */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,var(--tw-gradient-stops))] from-[#E6F4EA] via-[#F2F9F5] to-white"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,var(--tw-gradient-stops))] from-[#45FF90]/10 via-transparent to-transparent"></div>
-          </>
-        )}
+    <div className="min-h-screen transition-colors duration-700">
+      {/* Background Wrapper - Dark Mode Only */}
+      <div className="fixed inset-0 -z-50 transition-colors duration-700 bg-deep-black">
+        {/* Deep Forest Space Effect */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-forest-card via-deep-black to-deep-black opacity-80"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,var(--tw-gradient-stops))] from-[#2E5C35]/20 via-transparent to-transparent"></div>
       </div>
 
       {/* Transition Screen */}
@@ -132,12 +112,10 @@ export default function EcoQuestApp() {
         <GameTransition onComplete={handleTransitionComplete} />
       )}
 
-      <div className="dark:text-[#F2F9F5] text-[#0B1410] h-full">
+      <div className="text-[#F2F9F5] h-full">
         {/* Glass Navbar - Hide when in game world */}
         {!inGameWorld && (
           <Navbar
-            darkMode={darkMode}
-            toggleTheme={toggleTheme}
             page={page}
             setPage={(newPage) => {
               if (newPage === "game") {

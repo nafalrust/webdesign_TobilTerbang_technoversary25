@@ -7,10 +7,10 @@ const AboutPage = () => (
   <div className="max-w-5xl mx-auto px-4 py-12 space-y-16">
     <div className="text-center space-y-6">
       <Badge>OUR MISSION</Badge>
-      <h2 className="text-5xl font-bold text-[#0B1410] dark:text-white">
+      <h2 className="text-5xl font-bold text-white">
         Gamifying The Future
       </h2>
-      <p className="text-xl text-slate-600 dark:text-[#A0C4A8] max-w-2xl mx-auto">
+      <p className="text-xl text-[#A0C4A8] max-w-2xl mx-auto">
         Menjembatani kesenjangan antara kesadaran digital dan aksi lingkungan
         nyata.
       </p>
@@ -37,11 +37,11 @@ const AboutPage = () => (
     </div>
 
     <div className="grid md:grid-cols-2 gap-8">
-      <Card className="bg-gradient-to-br from-[#F2F9F5] to-[#45FF90]/20 dark:from-[#112218] dark:to-[#2E5C35]/20">
-        <h3 className="text-2xl font-bold text-[#0B1410] dark:text-white mb-4 flex items-center gap-3">
+      <Card className="bg-gradient-to-br from-[#112218] to-[#2E5C35]/20">
+        <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
           <Zap className="text-yellow-500" /> Mengapa Gamifikasi?
         </h3>
-        <p className="text-slate-600 dark:text-[#A0C4A8] leading-relaxed">
+        <p className="text-[#A0C4A8] leading-relaxed">
           Otak manusia menyukai reward. Dengan menerapkan sistem XP, Level, dan
           Leaderboard pada aksi lingkungan, kami menciptakan kebiasaan positif
           yang berkelanjutan. Bukan beban, tapi tantangan yang menyenangkan.
@@ -49,29 +49,29 @@ const AboutPage = () => (
       </Card>
 
       <div className="space-y-4">
-        <Card className="flex items-center gap-6 py-4 bg-white/40 dark:bg-[#112218]/80">
-          <div className="bg-[#2E5C35]/10 p-4 rounded-full text-[#2E5C35] dark:text-[#45FF90]">
+        <Card className="flex items-center gap-6 py-4 bg-[#112218]/80">
+          <div className="bg-[#2E5C35]/10 p-4 rounded-full text-[#45FF90]">
             <ShieldCheck size={24} />
           </div>
           <div>
-            <h4 className="font-bold text-lg text-[#0B1410] dark:text-white">
+            <h4 className="font-bold text-lg text-white">
               Transparansi Total
             </h4>
-            <p className="text-sm text-slate-600 dark:text-[#A0C4A8]">
+            <p className="text-sm text-[#A0C4A8]">
               Setiap XP diverifikasi oleh AI dan komunitas.
             </p>
           </div>
         </Card>
 
-        <Card className="flex items-center gap-6 py-4 bg-white/40 dark:bg-[#112218]/80">
-          <div className="bg-[#45FF90]/10 p-4 rounded-full text-[#2E5C35] dark:text-[#45FF90]">
+        <Card className="flex items-center gap-6 py-4 bg-[#112218]/80">
+          <div className="bg-[#45FF90]/10 p-4 rounded-full text-[#45FF90]">
             <Users size={24} />
           </div>
           <div>
-            <h4 className="font-bold text-lg text-[#0B1410] dark:text-white">
+            <h4 className="font-bold text-lg text-white">
               Komunitas Global
             </h4>
-            <p className="text-sm text-slate-600 dark:text-[#A0C4A8]">
+            <p className="text-sm text-[#A0C4A8]">
               Terhubung dengan Eco-Warriors di Leaderboard.
             </p>
           </div>

@@ -8,7 +8,7 @@ const TRASH_ITEMS = [
     type: "plastic",
     icon: "🥤",
     color:
-      "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
+      "bg-orange-900/30 text-orange-400",
   },
   {
     id: 2,
@@ -16,14 +16,14 @@ const TRASH_ITEMS = [
     type: "organic",
     icon: "🍌",
     color:
-      "bg-green-100 dark:bg-[#2E5C35]/30 text-green-600 dark:text-[#45FF90]",
+      "bg-[#2E5C35]/30 text-[#45FF90]",
   },
   {
     id: 3,
     name: "Kaleng Soda",
     type: "metal",
     icon: "🥫",
-    color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
+    color: "bg-blue-900/30 text-blue-400",
   },
   {
     id: 4,
@@ -31,7 +31,7 @@ const TRASH_ITEMS = [
     type: "paper",
     icon: "📦",
     color:
-      "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400",
+      "bg-yellow-900/30 text-yellow-400",
   },
   {
     id: 5,
@@ -39,7 +39,7 @@ const TRASH_ITEMS = [
     type: "organic",
     icon: "🍎",
     color:
-      "bg-green-100 dark:bg-[#2E5C35]/30 text-green-600 dark:text-[#45FF90]",
+      "bg-[#2E5C35]/30 text-[#45FF90]",
   },
   {
     id: 6,
@@ -47,7 +47,7 @@ const TRASH_ITEMS = [
     type: "plastic",
     icon: "🛍️",
     color:
-      "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
+      "bg-orange-900/30 text-orange-400",
   },
 ];
 
@@ -140,7 +140,7 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="bg-white dark:bg-forest-card rounded-3xl shadow-2xl border-4 border-[#2E5C35] overflow-hidden relative min-h-[500px] flex flex-col">
+      <div className="bg-forest-card rounded-3xl shadow-2xl border-4 border-[#2E5C35] overflow-hidden relative min-h-[500px] flex flex-col">
         {/* Header HUD */}
         <div className="bg-[#2E5C35] p-4 flex justify-between items-center text-white">
           <div className="font-bold text-xl flex items-center gap-2">
@@ -157,13 +157,13 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
         </div>
 
         {/* Game Area */}
-        <div className="flex-1 bg-[#F2F9F5] dark:bg-deep-black relative flex flex-col items-center justify-center p-4">
+        <div className="flex-1 bg-deep-black relative flex flex-col items-center justify-center p-4">
           {!isPlaying && !isGameOver && (
             <div className="text-center z-10">
-              <h2 className="text-3xl font-bold text-[#0B1410] dark:text-white mb-4">
+              <h2 className="text-3xl font-bold text-white mb-4">
                 Trash Sorter Game
               </h2>
-              <p className="text-slate-600 dark:text-[#A0C4A8] mb-6">
+              <p className="text-[#A0C4A8] mb-6">
                 Pilah sampah ke tong yang benar secepat mungkin!
               </p>
               <button
@@ -177,10 +177,10 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
 
           {isGameOver && (
             <div className="text-center z-10 animate-in zoom-in duration-300">
-              <h2 className="text-4xl font-bold text-[#0B1410] dark:text-white mb-2">
+              <h2 className="text-4xl font-bold text-white mb-2">
                 Waktu Habis!
               </h2>
-              <p className="text-2xl text-[#2E5C35] dark:text-[#45FF90] font-bold mb-6">
+              <p className="text-2xl text-[#45FF90] font-bold mb-6">
                 Skor Akhir: {score}
               </p>
               <button
@@ -199,7 +199,7 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
                 <div
                   className={`absolute top-10 font-bold text-2xl animate-bounce ${
                     message.type === "success"
-                      ? "text-[#2E5C35] dark:text-[#45FF90]"
+                      ? "text-[#45FF90]"
                       : "text-red-500"
                   }`}
                 >
@@ -210,11 +210,11 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
               {/* Current Trash Item */}
               <div className="mb-12 animate-in slide-in-from-top duration-500 cursor-grab active:cursor-grabbing hover:scale-110 transition-transform">
                 <div
-                  className={`w-32 h-32 rounded-full flex items-center justify-center text-6xl shadow-xl border-4 border-white dark:border-forest-card ${currentTrash.color}`}
+                  className={`w-32 h-32 rounded-full flex items-center justify-center text-6xl shadow-xl border-4 border-forest-card ${currentTrash.color}`}
                 >
                   {currentTrash.icon}
                 </div>
-                <p className="text-center mt-4 font-bold text-[#0B1410] dark:text-[#A0C4A8] bg-white/50 dark:bg-forest-card/50 rounded-full py-1 backdrop-blur-sm">
+                <p className="text-center mt-4 font-bold text-[#A0C4A8] bg-forest-card/50 rounded-full py-1 backdrop-blur-sm">
                   {currentTrash.name}
                 </p>
               </div>
@@ -236,7 +236,7 @@ const TrashSortingGame = ({ onScoreUpdate }) => {
           )}
         </div>
       </div>
-      <p className="text-center mt-4 text-slate-500 dark:text-[#A0C4A8] text-sm">
+      <p className="text-center mt-4 text-[#A0C4A8] text-sm">
         Tips: Klik tong sampah yang sesuai dengan jenis sampah di layar.
       </p>
     </div>

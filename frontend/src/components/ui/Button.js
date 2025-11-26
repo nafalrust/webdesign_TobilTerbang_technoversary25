@@ -7,16 +7,16 @@ const Button = ({ children, variant = "primary", onClick, className = "" }) => {
     primary:
       "bg-gradient-to-r from-[#2E5C35] to-[#45FF90] text-[#020604] shadow-[0_0_25px_rgba(69,255,144,0.3)] hover:shadow-[0_0_40px_rgba(69,255,144,0.5)] border border-[#45FF90]/30",
 
-    // Secondary: Glassy Dark/Light
+    // Secondary: Glassy Dark
     secondary:
-      "bg-white/60 dark:bg-[#112218]/60 text-[#2E5C35] dark:text-[#45FF90] border border-[#2E5C35]/20 dark:border-[#45FF90]/30 hover:bg-white dark:hover:bg-[#112218] backdrop-blur-md",
+      "bg-[#112218]/60 text-[#45FF90] border border-[#45FF90]/30 hover:bg-[#112218] backdrop-blur-md",
 
     // Accent: Solid Neon
     accent:
       "bg-[#45FF90] text-[#020604] hover:bg-[#3BE07D] shadow-lg shadow-[#45FF90]/20",
 
     outline:
-      "border border-slate-300 dark:border-[#2E5C35] text-slate-600 dark:text-[#A0C4A8] hover:bg-slate-100 dark:hover:bg-[#112218]/50 backdrop-blur-sm",
+      "border border-[#2E5C35] text-[#A0C4A8] hover:bg-[#112218]/50 backdrop-blur-sm",
   };
 
   return (
