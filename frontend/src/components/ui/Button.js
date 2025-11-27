@@ -5,7 +5,7 @@ const Button = ({ children, variant = "primary", onClick, className = "" }) => {
   const variants = {
     // Primary: Gradient from Leaf Green to Neon Pop
     primary:
-      "bg-gradient-to-r from-[#2E5C35] to-[#45FF90] text-[#020604] shadow-[0_0_25px_rgba(69,255,144,0.3)] hover:shadow-[0_0_40px_rgba(69,255,144,0.5)] border border-[#45FF90]/30",
+      " text-white backdrop-blur-sm hover:bg-leaf-green shadow-[0_0_10px_rgba(69,255,144,0.3)] hover:shadow-[0_0_40px_rgba(69,255,144,0.5)] rounded-2xl border border-[#45FF90]/30",
 
     // Secondary: Glassy Dark
     secondary:

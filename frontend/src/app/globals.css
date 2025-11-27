@@ -10,10 +10,29 @@
   --color-fresh-green: #4ade80;
   --color-neon-pop: #45ff90;
 
+  /* Font Families */
+  --font-family-mono: "IBM Plex Mono", "Courier New", monospace;
+  --font-family-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-family-grotesk: "Space Grotesk", sans-serif;
+
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+  --font-size-7xl: 4.5rem;
+  --font-size-8xl: 6rem;
+  --font-size-9xl: 8rem;
+
   /* Animations */
   --animate-shine: shine 1.5s infinite;
-  --animate-bounce-in: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)
-    forwards;
+  --animate-bounce-in: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   --animate-gradient-x: gradient-x 15s ease infinite;
   --animate-fade-in-up: fade-in-up 1s ease-out forwards;
   --animate-slide-down: slide-down 1s ease forwards;
@@ -75,10 +94,19 @@
       opacity: 1;
     }
   }
+
+  @keyframes light-sweep {
+    0%,
+    100% {
+      background-position: right center;
+    }
+    50% {
+      background-position: left center;
+    }
+  }
 }
 
-/* 3. CUSTOM UTILITIES & VARIABLES 
-*/
+/* CUSTOM UTILITIES & VARIABLES */
 :root {
   /* Font default */
   font-family: "Space Grotesk", sans-serif;
@@ -120,3 +148,39 @@ a, button, [role="button"] {
   cursor: pointer;
 }
 
+@layer utilities {
+  /* Font Family Utilities */
+  .font-mono {
+    font-family: var(--font-family-mono);
+  }
+
+  .font-inter {
+    font-family: var(--font-family-inter);
+  }
+
+  .font-grotesk {
+    font-family: var(--font-family-grotesk);
+  }
+
+  .font-ibm {
+    font-family: var(--font-family-mono);
+  }
+
+  .text-light-sweep {
+    background: linear-gradient(
+      90deg,
+      #4ade80 0%,
+      #4ade80 15%,
+      #45ff90 30%,
+      #ffffff 50%,
+      #45ff90 70%,
+      #4ade80 85%,
+      #4ade80 100%
+    );
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: light-sweep 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  }
+}

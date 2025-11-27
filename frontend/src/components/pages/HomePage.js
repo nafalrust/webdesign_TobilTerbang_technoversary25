@@ -82,11 +82,11 @@ const HomePage = ({ setPage }) => {
       {/* Cursor Glow Effect */}
       <CursorGlow />
 
-      {/* Hero Section - Inspired by MainLayoutReference.txt */}
-      <section className="relative min-h-[90vh] flex items-center justify-start px-4 md:px-20 max-w-7xl mx-auto">
-        <div className="space-y-8">
+      {/* Hero Section */}
+      <section className="relative min-h-[90vh] flex items-center justify-start px-4 md:px-20 max-w-7xl mx-auto ml-18">
+        <div className="my-30">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#2E5C35]/30 border border-[#45FF90]/20 backdrop-blur-md shadow-sm">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#2E5C35]/30 border border-[#45FF90]/20 backdrop-blur-md shadow-sm">
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#45FF90]"></span>
             <span className="text-xs font-bold uppercase tracking-wider text-[#45FF90]">
               Gamified Action Platform
@@ -94,25 +94,19 @@ const HomePage = ({ setPage }) => {
           </div>
 
           {/* Hero Title */}
-          <h1
-            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.1]"
-            style={{
-              background: "linear-gradient(to right, #fff, #4ade80)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
+          <h1 className="text-5xl md:text-7xl my-3 lg:text-8xl font-bold font-ibm tracking-tight leading-[1.1] text-fresh-green">
             Level Up Your
             <br />
-            Planet
+            <span className="text-light-sweep">
+              Planet
+            </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl md:text-2xl text-[#cccccc] max-w-xl font-light leading-relaxed">
+          <p className="text-lg font-inter text-white max-w-xl font-medium leading-relaxed">
             Mainkan gamenya, selamatkan dunianya. Ekosistem aksi lingkungan
             pertama dengan sistem{" "}
-            <span className="font-bold text-[#45FF90]">
+            <span className="font-bold text-fresh-green">
               Real-World XP
             </span>
             .
@@ -123,16 +117,9 @@ const HomePage = ({ setPage }) => {
             <Button
               variant="primary"
               onClick={() => setPage("game")}
-              className="text-lg px-10 py-4 bg-fresh-green/10 border border-fresh-green text-fresh-green hover:bg-fresh-green hover:text-[#002914] hover:shadow-[0_0_30px_rgba(74,222,128,0.5)] transition-all duration-300 backdrop-blur-sm"
+              className="text-lg px-10 py-4 bg-fresh-green/10 border border-fresh-green text-white hover:bg-leaf-green hover:text-white hover:shadow-[0_0_30px_rgba(74,222,128,0.5)] transition-all duration-300 backdrop-blur-sm"
             >
-              <Gamepad2 size={24} /> Mulai Berkontribusi
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setPage("about")}
-              className="text-lg px-10 py-4"
-            >
-              <Users size={24} /> Tentang Kami
+              <Gamepad2 size={24} /> Enter Game World
             </Button>
           </div>
         </div>

@@ -26,7 +26,7 @@ const Navbar = ({
     <nav
       className={`fixed z-65 transition-all duration-300 ${
         scrolled
-          ? "top-4 left-4 right-4 rounded-2xl glass-panel border border-[#45FF90]/20 bg-[#0B1410]/80 shadow-lg"
+          ? "top-7 left-10 right-10 rounded-3xl glass-panel border border-[#45FF90]/20 bg-[#0B1410]/80 shadow-lg"
           : "top-0 left-0 right-0 rounded-none glass-panel border-b border-[#45FF90]/10 bg-[#0B1410]/80"
       }`}
     >
@@ -56,7 +56,7 @@ const Navbar = ({
                 onClick={() => setPage(item.toLowerCase())}
                 className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
                   page === item.toLowerCase()
-                    ? "bg-[#2E5C35] text-white shadow-sm"
+                    ? "bg-leaf-green text-white shadow-sm"
                     : "text-[#A0C4A8] hover:text-white"
                 }`}
               >
@@ -87,7 +87,7 @@ const Navbar = ({
               <Button
                 variant="primary"
                 onClick={() => setPage("auth")}
-                className="px-5! py-2! text-sm! rounded-lg! text-deep-black"
+                className="px-5! py-2! text-sm! rounded-lg"
               >
                 Login
               </Button>
@@ -109,7 +109,7 @@ const Navbar = ({
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
         <div
-          className={`md:hidden absolute left-0 w-full bg-deep-black/95 backdrop-blur-xl border-b border-[#2E5C35] p-6 flex flex-col gap-4 animate-fade-in transition-all duration-300 ${
+          className={`md:hidden absolute left-0 w-full bg-deep-black/95 backdrop-blur-xl border-b border-fresh-green p-6 flex flex-col gap-4 animate-fade-in transition-all duration-300 ${
             scrolled ? "top-[76px] rounded-b-2xl" : "top-20"
           }`}
         >
@@ -125,16 +125,13 @@ const Navbar = ({
               {item}
             </button>
           ))}
-          <div className="h-px bg-[#2E5C35] my-2"></div>
-          <div className="flex items-center justify-between p-2">
-            <span className="font-bold text-[#45FF90] flex items-center gap-2">
-              <Zap size={18} className="fill-current" /> {xp} XP
-            </span>
+          <div className="h-px bg-fresh-green my-2"></div>
+          <div className="flex items-center justify-between text-white p-2">
             {user ? (
               <Button
                 variant="primary"
                 onClick={onLogout}
-                className="py-2! px-6! text-sm! flex items-center gap-2"
+                className="py-2! px-6! text-sm! rounded-2xl flex items-center gap-2"
               >
                 <LogOut size={16} />
                 Logout
