@@ -1,12 +1,15 @@
 import { useState } from "react";
 import GameSidebar from "../layout/GameSidebar";
 import TrashSortingGame from "./TrashSortingGame";
+import TumblerDetectionModal from "./TumblerDetectionModal";
 import Button from "../ui/Button";
 import { Lock, MapPin, Star, Award, Zap } from "lucide-react";
 
 const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
   const [activeSection, setActiveSection] = useState("main-mission");
   const [isLoggedIn, setIsLoggedIn] = useState(false); // This will be connected to backend later
+  const [showTumblerModal, setShowTumblerModal] = useState(false);
+  const [selectedMission, setSelectedMission] = useState(null);
 
   const handleExitGameWorld = () => {
     if (
@@ -91,14 +94,34 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
       alert("Misi ini terkunci! Selesaikan misi sebelumnya untuk membuka.");
       return;
     }
-    const confirm = window.confirm(
-      `Mulai misi: ${mission.title}?\n\nKamu akan diminta untuk upload bukti foto nanti.`
-    );
-    if (confirm) {
-      alert(
-        `🎯 Misi dimulai! Upload bukti foto aksimu untuk mendapatkan ${mission.xp} XP.`
+
+    // For tumbler mission, show tumbler detection modal
+    if (mission.id === 2 || mission.title.toLowerCase().includes("tumbler")) {
+      setSelectedMission(mission);
+      setShowTumblerModal(true);
+    } else {
+      const confirm = window.confirm(
+        `Mulai misi: ${mission.title}?\n\nKamu akan diminta untuk upload bukti foto nanti.`
       );
-      // TODO: Navigate to verification page
+      if (confirm) {
+        alert(
+          `🎯 Misi dimulai! Upload bukti foto aksimu untuk mendapatkan ${mission.xp} XP.`
+        );
+      }
+    }
+  };
+
+  const handleTumblerDetectionSuccess = (result) => {
+    // Award XP based on mission
+    if (selectedMission) {
+      addXp(selectedMission.xp);
+      setTimeout(() => {
+        alert(
+          `🎉 Tumbler terdeteksi! Kamu mendapat ${selectedMission.xp} XP!\n\nTetap gunakan tumbler untuk menyelamatkan lingkungan!`
+        );
+        setShowTumblerModal(false);
+        setSelectedMission(null);
+      }, 100);
     }
   };
 
@@ -402,6 +425,17 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
           )}
         </div>
       </div>
+
+      {/* Tumbler Detection Modal */}
+      <TumblerDetectionModal
+        isOpen={showTumblerModal}
+        onClose={() => {
+          setShowTumblerModal(false);
+          setSelectedMission(null);
+        }}
+        onSuccess={handleTumblerDetectionSuccess}
+        missionTitle={selectedMission?.title}
+      />
     </>
   );
 };

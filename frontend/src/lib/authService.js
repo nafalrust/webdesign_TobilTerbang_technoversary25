@@ -56,7 +56,7 @@ class AuthService {
   // Login
   async login(email, password) {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,12 +66,12 @@ class AuthService {
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+      if (!data.success) {
+        throw new Error(data.error || "Login failed");
       }
 
       // Store tokens and user
-      const token = data.access_token || data.session?.access_token;
+      const token = data.session?.access_token;
       const refreshToken = data.session?.refresh_token;
       this.setTokens(token, refreshToken);
       this.setStoredUser(data.user);
@@ -92,7 +92,7 @@ class AuthService {
   // Sign up
   async signup(email, password, fullName) {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+      const response = await fetch(`${API_BASE_URL}/api/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -100,18 +100,17 @@ class AuthService {
         body: JSON.stringify({
           email,
           password,
-          full_name: fullName,
         }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "Signup failed");
+      if (!data.success) {
+        throw new Error(data.error || "Signup failed");
       }
 
       // Store tokens and user
-      const token = data.access_token || data.session?.access_token;
+      const token = data.session?.access_token;
       const refreshToken = data.session?.refresh_token;
       this.setTokens(token, refreshToken);
       this.setStoredUser(data.user);
@@ -125,6 +124,42 @@ class AuthService {
       return {
         success: false,
         error: error.message || "Terjadi kesalahan saat mendaftar",
+      };
+    }
+  }
+
+  // Google OAuth Login
+  async loginWithGoogle(idToken) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/google`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id_token: idToken }),
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error || "Google login failed");
+      }
+
+      // Store tokens and user
+      const token = data.session?.access_token;
+      const refreshToken = data.session?.refresh_token;
+      this.setTokens(token, refreshToken);
+      this.setStoredUser(data.user);
+
+      return {
+        success: true,
+        user: data.user,
+        token,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || "Terjadi kesalahan saat login dengan Google",
       };
     }
   }
