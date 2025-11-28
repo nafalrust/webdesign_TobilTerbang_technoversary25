@@ -2,9 +2,9 @@ import { Leaf } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-deep-black/50 backdrop-blur-sm border-t border-[#45FF90]/10 py-16 relative z-10">
-      <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-12">
-        <div className="col-span-1 md:col-span-2 space-y-4">
+    <footer className="bg-deep-black/50 backdrop-blur-sm border-t border-[#45FF90]/10 py-8 md:py-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-4 gap-3 md:gap-12">
+        <div className="col-span-4 md:col-span-2 space-y-4 mb-6 md:mb-0">
           <div className="flex items-center gap-2">
             <div className="bg-forest-card p-1.5 rounded-lg text-[#45FF90]">
               <Leaf size={16} />
@@ -15,7 +15,7 @@ const Footer = () => {
             Platform #1 untuk aksi lingkungan gamified. Bergabunglah dengan
             revolusi hijau digital.
           </p>
-          <div className="flex gap-3 pt-2">
+          {/* <div className="flex gap-3 pt-2">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
@@ -24,13 +24,13 @@ const Footer = () => {
                 <span className="text-xs font-bold">SOC</span>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
         <div>
-          <h4 className="font-bold mb-6 text-white text-sm uppercase tracking-wider">
+          <h4 className="font-bold mb-3 md:mb-6 text-white text-xs md:text-sm uppercase tracking-wider">
             System
           </h4>
-          <ul className="space-y-3 text-sm text-[#A0C4A8]">
+          <ul className="space-y-2 md:space-y-3 text-xs md:text-sm text-[#A0C4A8]">
             <li className="hover:text-[#45FF90] cursor-pointer transition-colors">
               Privacy Protocol
             </li>
@@ -43,10 +43,10 @@ const Footer = () => {
           </ul>
         </div>
         <div>
-          <h4 className="font-bold mb-6 text-white text-sm uppercase tracking-wider">
+          <h4 className="font-bold mb-3 md:mb-6 text-white text-xs md:text-sm uppercase tracking-wider">
             Missions
           </h4>
-          <ul className="space-y-3 text-sm text-[#A0C4A8]">
+          <ul className="space-y-2 md:space-y-3 text-xs md:text-sm text-[#A0C4A8]">
             <li className="hover:text-[#45FF90] cursor-pointer transition-colors">
               Daily Quests
             </li>

@@ -83,7 +83,7 @@ const HomePage = ({ setPage }) => {
       <CursorGlow />
 
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-start px-4 md:px-20 max-w-7xl mx-auto ml-18">
+      <section className="relative min-h-[90vh] flex items-center justify-start px-4 sm:px-6 md:px-12 lg:px-20 max-w-7xl mx-auto">
         <div className="my-30">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-5 py-2 mt-7 rounded-full bg-[#2E5C35]/30 border border-[#45FF90]/20 backdrop-blur-md shadow-sm">
@@ -113,13 +113,13 @@ const HomePage = ({ setPage }) => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-5 pt-8">
+          <div className="inline-flex flex-col sm:flex-row gap-5 pt-8">
             <Button
               variant="primary"
               onClick={() => setPage("game")}
-              className="text-lg px-10 py-4 bg-fresh-green/10 border border-fresh-green text-white hover:bg-leaf-green hover:text-white hover:shadow-[0_0_30px_rgba(74,222,128,0.5)] transition-all duration-300 backdrop-blur-sm"
+              className="text-base sm:text-lg px-6 sm:px-10 py-3 sm:py-4 whitespace-nowrap bg-fresh-green/10 border border-fresh-green text-white hover:bg-leaf-green hover:text-white hover:shadow-[0_0_30px_rgba(74,222,128,0.5)] transition-all duration-300 backdrop-blur-sm"
             >
-              <Gamepad2 size={24} /> Enter Game World
+              <Gamepad2 size={20} className="sm:w-6 sm:h-6" /> Enter Game World
             </Button>
           </div>
         </div>
@@ -128,7 +128,7 @@ const HomePage = ({ setPage }) => {
       {/* Animated Stats Section */}
       <section
         ref={statsRef}
-        className="max-w-5xl mx-auto px-2 py-10 my-10"
+        className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 lg:px-2 py-10 my-10"
       >
         <div className="relative bg-linear-to-r from-[#0B1410]/50 via-[#1a2820]/50 to-[#0B1410]/50 backdrop-blur-md rounded-3xl border border-[#45FF90]/20 p-8 md:p-8 overflow-hidden">
           {/* Glow effect */}
