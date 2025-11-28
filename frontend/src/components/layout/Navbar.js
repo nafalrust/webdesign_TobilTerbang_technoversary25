@@ -70,19 +70,14 @@ const Navbar = ({
 
             {/* Conditional Login/Logout Button */}
             {user ? (
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-[#45FF90] font-medium">
-                  {user.email}
-                </span>
-                <Button
-                  variant="primary"
-                  onClick={onLogout}
-                  className="px-6 py-2 text-sm rounded-3xl text-deep-black flex items-center gap-2"
-                >
-                  <LogOut size={16} />
-                  Logout
-                </Button>
-              </div>
+              <Button
+                variant="primary"
+                onClick={onLogout}
+                className="px-6 py-2 text-sm rounded-3xl text-deep-black flex items-center gap-2"
+              >
+                <LogOut size={16} />
+                Logout
+              </Button>
             ) : (
               <Button
                 variant="primary"

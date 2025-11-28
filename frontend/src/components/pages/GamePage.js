@@ -7,7 +7,7 @@ import { Lock, MapPin, Star, Award, Zap } from "lucide-react";
 
 const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
   const [activeSection, setActiveSection] = useState("main-mission");
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // This will be connected to backend later
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true to skip login gate
   const [showTumblerModal, setShowTumblerModal] = useState(false);
   const [selectedMission, setSelectedMission] = useState(null);
 

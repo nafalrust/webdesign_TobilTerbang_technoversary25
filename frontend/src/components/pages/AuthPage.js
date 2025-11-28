@@ -121,22 +121,22 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 w-full max-w-md mx-auto px-4">
+      <div className="relative z-10 w-full max-w-sm mx-auto px-4">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="relative inline-flex mb-4">
-            <div className="absolute inset-0 blur-2xl bg-[#45FF90]/30 animate-pulse"></div>
-            <div className="relative bg-linear-to-br from-[#2E5C35] to-forest-card p-6 rounded-3xl border-2 border-[#45FF90]/30 shadow-2xl">
-              <Leaf size={48} className="text-[#45FF90]" />
+        <div className="text-center mb-7">
+          <div className="relative inline-flex mb-3">
+            <div className="absolute inset-0 blur-xl bg-[#45FF90]/30 animate-pulse"></div>
+            <div className="relative bg-linear-to-br from-[#2E5C35] to-forest-card p-5 rounded-2xl border-2 border-[#45FF90]/30 shadow-2xl">
+              <Leaf size={38} className="text-[#45FF90]" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold mb-2">
+          <h1 className="text-3xl font-bold mb-1.5">
             <span className="text-white">Eco</span>
             <span className="text-transparent bg-clip-text bg-linear-to-r from-[#45FF90] to-[#2E5C35]">
               Quest
             </span>
           </h1>
-          <p className="text-[#A0C4A8]">
+          <p className="text-sm text-[#A0C4A8]">
             {isLogin
               ? "Selamat datang kembali!"
               : "Bergabung dengan misi hijau"}
@@ -144,13 +144,13 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
         </div>
 
         {/* Auth Form Card */}
-        <div className="bg-forest-card/80 backdrop-blur-xl border-2 border-[#2E5C35]/30 rounded-2xl p-8 shadow-2xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="bg-forest-card/80 backdrop-blur-xl border-2 border-[#2E5C35]/30 rounded-xl p-7 shadow-2xl">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Full Name (Only for Sign Up) */}
             {!isLogin && (
-              <div className="space-y-2">
-                <label className="text-[#A0C4A8] text-sm font-medium flex items-center gap-2">
-                  <User size={16} />
+              <div className="space-y-1.5">
+                <label className="text-[#A0C4A8] text-xs font-medium flex items-center gap-1.5">
+                  <User size={15} />
                   Nama Lengkap
                 </label>
                 <input
@@ -159,16 +159,16 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
                   value={formData.full_name}
                   onChange={handleInputChange}
                   required={!isLogin}
-                  className="w-full px-4 py-3 bg-[#0B1410] border border-[#2E5C35]/50 rounded-lg text-white placeholder-[#A0C4A8]/50 focus:outline-none focus:border-[#45FF90] focus:ring-2 focus:ring-[#45FF90]/20 transition-all"
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#0B1410] border border-[#2E5C35]/50 rounded-lg text-white placeholder-[#A0C4A8]/50 focus:outline-none focus:border-[#45FF90] focus:ring-2 focus:ring-[#45FF90]/20 transition-all"
                   placeholder="Masukkan nama lengkap"
                 />
               </div>
             )}
 
             {/* Email */}
-            <div className="space-y-2">
-              <label className="text-[#A0C4A8] text-sm font-medium flex items-center gap-2">
-                <Mail size={16} />
+            <div className="space-y-1.5">
+              <label className="text-[#A0C4A8] text-xs font-medium flex items-center gap-1.5">
+                <Mail size={15} />
                 Email
               </label>
               <input
@@ -177,15 +177,15 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
                 value={formData.email}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-3 bg-[#0B1410] border border-[#2E5C35]/50 rounded-lg text-white placeholder-[#A0C4A8]/50 focus:outline-none focus:border-[#45FF90] focus:ring-2 focus:ring-[#45FF90]/20 transition-all"
+                className="w-full px-3.5 py-2.5 text-sm bg-[#0B1410] border border-[#2E5C35]/50 rounded-lg text-white placeholder-[#A0C4A8]/50 focus:outline-none focus:border-[#45FF90] focus:ring-2 focus:ring-[#45FF90]/20 transition-all"
                 placeholder="nama@email.com"
               />
             </div>
 
             {/* Password */}
-            <div className="space-y-2">
-              <label className="text-[#A0C4A8] text-sm font-medium flex items-center gap-2">
-                <Lock size={16} />
+            <div className="space-y-1.5">
+              <label className="text-[#A0C4A8] text-xs font-medium flex items-center gap-1.5">
+                <Lock size={15} />
                 Password
               </label>
               <div className="relative">
@@ -195,15 +195,15 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
                   value={formData.password}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 bg-[#0B1410] border border-[#2E5C35]/50 rounded-lg text-white placeholder-[#A0C4A8]/50 focus:outline-none focus:border-[#45FF90] focus:ring-2 focus:ring-[#45FF90]/20 transition-all"
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#0B1410] border border-[#2E5C35]/50 rounded-lg text-white placeholder-[#A0C4A8]/50 focus:outline-none focus:border-[#45FF90] focus:ring-2 focus:ring-[#45FF90]/20 transition-all"
                   placeholder="Masukkan password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A0C4A8] hover:text-[#45FF90] transition-colors"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#A0C4A8] hover:text-[#45FF90] transition-colors"
                 >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
                 </button>
               </div>
             </div>
@@ -220,11 +220,11 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
               type="submit"
               variant="primary"
               disabled={isLoading}
-              className="w-full py-3! text-base! font-bold relative overflow-hidden flex items-center justify-center"
+              className="w-full py-2.5! text-sm! font-bold relative overflow-hidden flex items-center justify-center"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <Sparkles size={18} className="animate-spin" />
+                  <Sparkles size={17} className="animate-spin" />
                   Memproses...
                 </span>
               ) : (
@@ -234,22 +234,22 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
           </form>
 
           {/* Divider */}
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-5 flex items-center gap-3">
             <div className="flex-1 h-px bg-[#2E5C35]/30"></div>
-            <span className="text-[#A0C4A8] text-sm">atau</span>
+            <span className="text-[#A0C4A8] text-xs">atau</span>
             <div className="flex-1 h-px bg-[#2E5C35]/30"></div>
           </div>
 
           {/* Google Sign In - Custom Styled Button */}
-          <div className="mt-6">
+          <div className="mt-5">
             <button
               type="button"
               onClick={handleCustomGoogleClick}
               disabled={isLoading}
-              className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-[#0B1410] border-2 border-[#2E5C35]/50 rounded-lg text-[#45FF90] font-semibold hover:border-[#45FF90] hover:bg-[#0B1410]/80 transition-all duration-300 hover:shadow-lg hover:shadow-[#45FF90]/20 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2.5 px-5 py-2.5 text-sm bg-[#0B1410] border-2 border-[#2E5C35]/50 rounded-lg text-[#45FF90] font-semibold hover:border-[#45FF90] hover:bg-[#0B1410]/80 transition-all duration-300 hover:shadow-lg hover:shadow-[#45FF90]/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg
-                className="w-5 h-5"
+                className="w-4.5 h-4.5"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -286,8 +286,8 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
           </div>
 
           {/* Toggle Auth Mode */}
-          <div className="mt-6 text-center">
-            <p className="text-[#A0C4A8] text-sm">
+          <div className="mt-4 text-center">
+            <p className="text-[#A0C4A8] text-xs">
               {isLogin ? "Belum punya akun?" : "Sudah punya akun?"}{" "}
               <button
                 onClick={toggleAuthMode}
@@ -299,10 +299,10 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
           </div>
 
           {/* Back Button */}
-          <div className="mt-4 text-center">
+          <div className="mt-3 text-center">
             <button
               onClick={onBack}
-              className="text-[#A0C4A8] text-sm hover:text-[#45FF90] transition-colors"
+              className="text-[#A0C4A8] text-xs hover:text-[#45FF90] transition-colors"
             >
               ← Kembali ke beranda
             </button>

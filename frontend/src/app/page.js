@@ -113,8 +113,8 @@ export default function EcoQuestApp() {
       )}
 
       <div className="text-[#F2F9F5] h-full">
-        {/* Glass Navbar - Hide when in game world */}
-        {!inGameWorld && (
+        {/* Glass Navbar - Hide when in game world or auth page */}
+        {!inGameWorld && page !== "auth" && (
           <Navbar
             page={page}
             setPage={(newPage) => {
@@ -133,7 +133,7 @@ export default function EcoQuestApp() {
         )}
 
         {/* Main Content */}
-        <main className={inGameWorld ? "" : "min-h-[calc(100vh-80px)] pt-8"}>
+        <main className={inGameWorld || page === "auth" ? "" : "min-h-[calc(100vh-80px)] pt-8"}>
           {page === "home" && (
             <HomePage
               setPage={(newPage) => {
@@ -163,8 +163,8 @@ export default function EcoQuestApp() {
           )}
         </main>
 
-        {/* Footer - Hide when in game world */}
-        {!inGameWorld && <Footer />}
+        {/* Footer - Hide when in game world or auth page */}
+        {!inGameWorld && page !== "auth" && <Footer />}
       </div>
     </div>
   );
