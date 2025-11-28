@@ -1,7 +1,7 @@
 """
 Technoversary Backend - Simple Version
 Hanya 4 fungsi: Signup, Login, Simpan Data, Ambil Data
-+ Computer Vision: Deteksi Tumbler
++ Computer Vision: Deteksi Tumbler & Deteksi Sampah
 """
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -31,6 +31,10 @@ supabase = create_client(
 # Roboflow API configuration
 ROBOFLOW_API_KEY = os.getenv('ROBOFLOW_API_KEY')
 ROBOFLOW_MODEL = "tumbler-detection-0xfmo/3"  # Sesuaikan dengan model Anda
+
+# Import and register waste routes
+from app.routes.waste_routes import waste_bp
+app.register_blueprint(waste_bp, url_prefix='/api/waste')
 
 # ============================================
 # AUTHENTICATION
@@ -592,6 +596,9 @@ def home():
             "save_data": "POST /api/data/<table_name>",
             "get_data": "GET /api/data/<table_name>",
             "tumbler_detect": "POST /api/tumbler/detect",
+            "waste_detect": "POST /api/waste/detect",
+            "waste_categories": "GET /api/waste/categories",
+            "waste_verify": "POST /api/waste/verify",
             "upload_profile_photo": "POST /api/profile/photo",
             "get_profile_photo": "GET /api/profile/photo/<user_id>",
             "delete_profile_photo": "DELETE /api/profile/photo/<user_id>"
