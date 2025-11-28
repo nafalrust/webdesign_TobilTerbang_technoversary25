@@ -2,11 +2,11 @@ import { Leaf } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#020604]/80 backdrop-blur-lg border-t border-[#45FF90]/10 py-16 relative z-10">
+    <footer className="bg-deep-black/50 backdrop-blur-sm border-t border-[#45FF90]/10 py-16 relative z-10">
       <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-12">
         <div className="col-span-1 md:col-span-2 space-y-4">
           <div className="flex items-center gap-2">
-            <div className="bg-[#2E5C35] p-1.5 rounded-lg text-[#45FF90]">
+            <div className="bg-forest-card p-1.5 rounded-lg text-[#45FF90]">
               <Leaf size={16} />
             </div>
             <span className="text-xl font-bold tracking-tight">EcoQuest</span>
@@ -19,7 +19,7 @@ const Footer = () => {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="h-8 w-8 bg-[#112218] rounded-full flex items-center justify-center hover:bg-[#45FF90] hover:text-[#020604] text-[#A0C4A8] transition-all cursor-pointer"
+                className="h-8 w-8 bg-forest-card rounded-full flex items-center justify-center hover:bg-[#45FF90] hover:text-deep-black text-[#A0C4A8] transition-all cursor-pointer"
               >
                 <span className="text-xs font-bold">SOC</span>
               </div>

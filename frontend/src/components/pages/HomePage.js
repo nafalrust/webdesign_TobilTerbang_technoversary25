@@ -94,10 +94,10 @@ const HomePage = ({ setPage }) => {
           </div>
 
           {/* Hero Title */}
-          <h1 className="text-5xl text-light-sweep md:text-7xl my-3 lg:text-8xl font-bold font-ibm tracking-tight leading-[1.1] text-[#45FF90]/40">
+          <h1 className="text-5xl text-light-sweep md:text-7xl my-3 lg:text-8xl font-bold font-ibm tracking-tight leading-[1.1] text-[#45FF90]/40" style={{ textShadow: "0 0 40px rgba(69, 255, 144, 0.3)" }}>
             Level Up Your
             <br />
-            <span className="text-light-sweep bg-clip-text text-transparent bg-linear-to-r from-[#2E5C35]/30 to-[#45FF90]/25">
+            <span className="text-light-sweep bg-clip-text text-transparent bg-linear-to-r from-[#2E5C35]/30 to-[#45FF90]/25" style={{ textShadow: "0 0 40px rgba(69, 255, 144, 0.3)" }}>
               Planet
             </span>
           </h1>
@@ -130,9 +130,9 @@ const HomePage = ({ setPage }) => {
         ref={statsRef}
         className="max-w-5xl mx-auto px-2 py-10 my-10"
       >
-        <div className="relative bg-gradient-to-r from-[#0B1410]/50 via-[#1a2820]/50 to-[#0B1410]/50 backdrop-blur-md rounded-3xl border border-[#45FF90]/20 p-8 md:p-8 overflow-hidden">
+        <div className="relative bg-linear-to-r from-[#0B1410]/50 via-[#1a2820]/50 to-[#0B1410]/50 backdrop-blur-md rounded-3xl border border-[#45FF90]/20 p-8 md:p-8 overflow-hidden">
           {/* Glow effect */}
-          <div className="absolute inset-0 bg-[#45FF90]/5 blur-3xl"></div>
+          <div className="absolute inset-0 bg-[#45FF90]/2 blur-xl"></div>
           
           <div className="font-ibm relative grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
             {[
@@ -176,7 +176,7 @@ const HomePage = ({ setPage }) => {
       <section className="max-w-7xl mx-auto px-4 pb-20">
         <div className="grid md:grid-cols-3 gap-8">
           <Card className="group scroll-trigger opacity-0 translate-y-12 transition-all duration-700 hover:shadow-2xl hover:shadow-[#2E5C35]/40 hover:-translate-y-2 hover:border-[#45FF90]/40">
-            <div className="h-14 w-14 bg-linear-to-br from-[#2E5C35] to-[#0B1410] rounded-2xl flex items-center justify-center text-[#45FF90] mb-6 shadow-lg shadow-[#2E5C35]/20 group-hover:scale-110 transition-transform border border-[#45FF90]/20">
+            <div className="h-14 w-14 bg-linear-to-br from-[#45FF90] to-[#2E5C35] rounded-2xl flex items-center justify-center text-deep-black mb-6 shadow-lg shadow-[#2E5C35]/20 group-hover:scale-110 transition-transform border border-[#45FF90]/20">
               <Gamepad2 size={28} />
             </div>
             <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-[#45FF90] transition-colors">
@@ -197,13 +197,13 @@ const HomePage = ({ setPage }) => {
               Real World Quests
             </h3>
             <p className="text-[#A0C4A8] leading-relaxed relative z-10 group-hover:text-white/90 transition-colors">
-              Tantangan nyata untuk remaja & dewasa. Tanam pohon, bersihkan
-              pantai, dapatkan XP sungguhan.
+              Tantangan nyata untuk sehatkan dunia. Membuang dan memilah sampah,
+              serta membawa tumbler setiap hari.
             </p>
           </Card>
 
           <Card className="group scroll-trigger opacity-0 translate-y-12 transition-all duration-700 delay-200 hover:shadow-2xl hover:shadow-[#45FF90]/40 hover:-translate-y-2 hover:border-[#45FF90]/40">
-            <div className="h-14 w-14 bg-linear-to-br from-[#45FF90] to-[#2E5C35] rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-[#45FF90]/20 group-hover:scale-110 transition-transform border border-[#45FF90]/20">
+            <div className="h-14 w-14 bg-linear-to-br from-[#45FF90] to-[#2E5C35] rounded-2xl flex items-center justify-center text-deep-black mb-6 shadow-lg shadow-[#45FF90]/20 group-hover:scale-110 transition-transform border border-[#45FF90]/20">
               <ShieldCheck size={28} />
             </div>
             <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-[#45FF90] transition-colors">

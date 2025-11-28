@@ -24,7 +24,7 @@ const Navbar = ({
 
   return (
     <nav
-      className={`fixed z-65 transition-all duration-300 ${
+      className={`fixed z-65 transition-all duration-500 ease-in-out ${
         scrolled
           ? "top-5 left-14 right-14 rounded-3xl glass-panel border border-[#45FF90]/20 bg-[#0B1410]/50 shadow-lg backdrop-blur-2xl"
           : "top-0 left-0 right-0 rounded-none glass-panel border-b border-[#45FF90]/0 bg-[#0B1410]/0"
