@@ -37,6 +37,20 @@ const AboutPage = ({ setPage }) => {
         <div className="absolute top-40 right-20 w-96 h-96 bg-[#2E5C35] rounded-full mix-blend-screen filter blur-3xl opacity-12 animate-pulse-slower" style={{ animationDelay: '2s' }}></div>
         <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-[#45FF90] rounded-full mix-blend-screen filter blur-3xl opacity-8 animate-pulse-slower" style={{ animationDelay: '4s' }}></div>
         
+        {/* Floating Particles */}
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-[#45FF90] rounded-full opacity-30"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animation: `float ${5 + Math.random() * 10}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 5}s`,
+            }}
+          ></div>
+        ))}
+        
         {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(69,255,144,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(69,255,144,0.03)_1px,transparent_1px)] bg-size-[50px_50px]"></div>
       </div>
@@ -216,7 +230,7 @@ const AboutPage = ({ setPage }) => {
                     <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white/75" style={{ textShadow: "0 0 20px rgba(69, 255, 144, 0.5)" }}>
                       3
                     </h3>
-                    <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/75">ton</span>
+                    <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white/75" style={{ textShadow: "0 0 20px rgba(69, 255, 144, 0.5)" }}>ton</span>
                   </div>
                   <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#A0C4A8]/80">
                     Sampah Tertangani

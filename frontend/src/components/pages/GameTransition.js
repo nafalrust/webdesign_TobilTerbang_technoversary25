@@ -14,44 +14,36 @@ const generateParticles = () => {
 
 const GameTransition = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState("entering"); // entering, loading, complete
   // Use lazy initialization to generate particles only once
   const [particles] = useState(() => generateParticles());
 
   useEffect(() => {
-    // Phase 1: Entering animation
-    const enterTimer = setTimeout(() => {
-      setPhase("loading");
-    }, 800);
-
-    // Phase 2: Loading progress
+    // Loading progress
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(progressInterval);
-          setPhase("complete");
           return 100;
         }
         return prev + 2;
       });
     }, 30);
 
-    // Phase 3: Complete and transition out
+    // Complete and transition out
     const completeTimer = setTimeout(() => {
       onComplete();
-    }, 3500);
+    }, 3200);
 
     return () => {
-      clearTimeout(enterTimer);
       clearTimeout(completeTimer);
       clearInterval(progressInterval);
     };
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-linear-to-br from-deep-black via-[#0B1410] to-forest-card animate-pulse">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center overflow-hidden bg-deep-black">
+      {/* Solid Background Layer - No transparency */}
+      <div className="absolute inset-0 bg-linear-to-br from-deep-black via-[#0B1410] to-[#1a2820]">
         {/* Animated particles */}
         <div className="absolute inset-0">
           {particles.map((particle) => (
@@ -75,13 +67,7 @@ const GameTransition = ({ onComplete }) => {
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 max-w-2xl mx-auto">
         {/* Logo Animation */}
-        <div
-          className={`transition-all duration-1000 ${
-            phase === "entering"
-              ? "scale-50 opacity-0"
-              : "scale-100 opacity-100"
-          }`}
-        >
+        <div className="transition-opacity duration-300 opacity-100">
           <div className="relative inline-flex mb-8">
             <div className="absolute inset-0 blur-2xl bg-[#45FF90]/30 animate-pulse"></div>
             <div className="relative bg-linear-to-br from-[#2E5C35] to-forest-card p-8 rounded-3xl border-2 border-[#45FF90]/30 shadow-2xl">
@@ -91,13 +77,7 @@ const GameTransition = ({ onComplete }) => {
         </div>
 
         {/* Title */}
-        <h1
-          className={`text-5xl md:text-6xl font-bold mb-4 transition-all duration-1000 delay-300 ${
-            phase === "entering"
-              ? "translate-y-10 opacity-0"
-              : "translate-y-0 opacity-100"
-          }`}
-        >
+        <h1 className="text-5xl md:text-6xl font-bold mb-4 transition-opacity duration-300 opacity-100">
           <span className="text-white">Entering </span>
           <span className="text-transparent bg-clip-text bg-linear-to-r from-[#45FF90] to-[#2E5C35]">
             Game World
@@ -105,24 +85,12 @@ const GameTransition = ({ onComplete }) => {
         </h1>
 
         {/* Subtitle */}
-        <p
-          className={`text-[#A0C4A8] text-lg mb-12 transition-all duration-1000 delay-500 ${
-            phase === "entering"
-              ? "translate-y-10 opacity-0"
-              : "translate-y-0 opacity-100"
-          }`}
-        >
+        <p className="text-[#A0C4A8] text-lg mb-12 transition-opacity duration-300 opacity-100">
           Memuat misi dan tantangan hijau untukmu...
         </p>
 
         {/* Progress Bar */}
-        <div
-          className={`transition-all duration-1000 delay-700 ${
-            phase === "entering"
-              ? "translate-y-10 opacity-0"
-              : "translate-y-0 opacity-100"
-          }`}
-        >
+        <div className="transition-opacity duration-300 opacity-100">
           <div className="bg-forest-card rounded-full h-3 overflow-hidden border border-[#2E5C35] mb-4 shadow-inner">
             <div
               className="h-full bg-linear-to-r from-[#2E5C35] via-[#45FF90] to-[#2E5C35] transition-all duration-300 ease-out relative"
@@ -144,11 +112,9 @@ const GameTransition = ({ onComplete }) => {
         </div>
 
         {/* Status Messages */}
-        <div
-          className={`mt-8 text-[#2E5C35] text-sm font-mono transition-all duration-500 ${
-            phase === "complete" ? "opacity-100" : "opacity-0"
-          }`}
-        >
+        <div className={`mt-8 text-[#2E5C35] text-sm font-mono transition-opacity duration-500 ${
+            progress === 100 ? "opacity-100" : "opacity-0"
+          }`}>
           ✓ Misi dimuat • ✓ Level siap • ✓ Mari bermain!
         </div>
       </div>
