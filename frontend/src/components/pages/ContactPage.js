@@ -76,7 +76,7 @@ const ContactPage = () => {
       `}</style>
 
       {/* Header Section */}
-      <div className="text-center mt-7 mb-12 relative z-10">
+      <div className="text-center mt-5 mb-12 relative z-10">
         <div className="inline-block p-3 rounded-full bg-[#45FF90]/10 backdrop-blur-md mb-4 border border-[#45FF90]/30">
           <Send size={24} className="text-[#45FF90]" />
         </div>
@@ -89,9 +89,9 @@ const ContactPage = () => {
       </div>
 
       {/* 2 Column Layout */}
-      <div className="grid md:grid-cols-5 gap-8 mb-16 relative z-10">
-        {/* Left Column - Contact Form (60%) */}
-        <Card className="md:col-span-3 p-8 relative overflow-hidden bg-[#0B1410]/90 border border-[#2E5C35]/30 hover:border-[#45FF90]/30 transition-all duration-500">
+      <div className="grid md:grid-cols-20 gap-8 mb-16 relative z-10">
+        {/* Left Column - Contact Form (55%) */}
+        <Card className="md:col-span-11 p-8 relative overflow-hidden bg-[#0B1410]/90 border border-[#2E5C35]/30 hover:border-[#45FF90]/30 transition-all duration-500">
           {/* Decorative Gradient Blob */}
           <div className="absolute -top-20 -right-20 w-60 h-60 bg-[#45FF90]/10 rounded-full blur-[80px]"></div>
           <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-[#2E5C35]/10 rounded-full blur-[80px]"></div>
@@ -198,8 +198,8 @@ const ContactPage = () => {
           </div>
         </Card>
 
-        {/* Right Column - Community Info (40%) */}
-        <Card className="md:col-span-2 p-8 relative overflow-hidden bg-[#0B1410]/90 border border-[#2E5C35]/30 hover:border-[#45FF90]/30 transition-all duration-500">
+        {/* Right Column - Community Info (45%) */}
+        <Card className="md:col-span-9 p-8 relative overflow-hidden bg-[#0B1410]/90 border border-[#2E5C35]/30 hover:border-[#45FF90]/30 transition-all duration-500">
           <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#45FF90]/10 rounded-full blur-[80px]"></div>
           
           <div className="relative z-10">
