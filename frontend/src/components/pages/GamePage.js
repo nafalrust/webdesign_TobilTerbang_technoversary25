@@ -2,6 +2,7 @@ import { useState } from "react";
 import GameSidebar from "../layout/GameSidebar";
 import TrashSortingGame from "./TrashSortingGame";
 import TumblerDetectionModal from "./TumblerDetectionModal";
+import WasteDetectionGame from "./WasteDetectionGame";
 import Button from "../ui/Button";
 import { Lock, MapPin, Star, Award, Zap } from "lucide-react";
 
@@ -9,6 +10,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
   const [activeSection, setActiveSection] = useState("main-mission");
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true to skip login gate
   const [showTumblerModal, setShowTumblerModal] = useState(false);
+  const [showWasteDetectionGame, setShowWasteDetectionGame] = useState(false);
   const [selectedMission, setSelectedMission] = useState(null);
 
   const handleExitGameWorld = () => {
@@ -22,12 +24,13 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
   const missions = [
     {
       id: 1,
-      title: "Penanam Pohon Pemula",
-      description: "Tanam atau rawat tanaman di sekitarmu",
-      xp: 150,
+      title: "Waste Detective - Level 1",
+      description: "Foto sampah dan tebak kategorinya dengan benar!",
+      xp: 500,
       difficulty: "Easy",
       status: "available",
-      icon: "🌱",
+      icon: "🗑️",
+      type: "waste-detection",
     },
     {
       id: 2,
@@ -61,6 +64,14 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
     },
     {
       id: 2,
+      title: "Penanam Pohon Pemula",
+      description: "Tanam atau rawat tanaman di sekitarmu",
+      xp: 150,
+      type: "daily",
+      icon: "🌱",
+    },
+    {
+      id: 3,
       title: "Green Commuter",
       description: "Gunakan transportasi umum atau sepeda",
       xp: 75,
@@ -95,8 +106,16 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
       return;
     }
 
-    // For tumbler mission, show tumbler detection modal
-    if (mission.id === 2 || mission.title.toLowerCase().includes("tumbler")) {
+    // For waste detection mission (Level 1)
+    if (mission.type === "waste-detection" || mission.id === 1) {
+      setSelectedMission(mission);
+      setShowWasteDetectionGame(true);
+    }
+    // For tumbler mission
+    else if (
+      mission.id === 2 ||
+      mission.title.toLowerCase().includes("tumbler")
+    ) {
       setSelectedMission(mission);
       setShowTumblerModal(true);
     } else {
@@ -136,6 +155,19 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
         );
       }
     }, 0);
+  };
+
+  const handleWasteDetectionScoreUpdate = (score) => {
+    setTimeout(() => {
+      if (score > 0) {
+        addXp(score);
+        alert(
+          `🗑️ Level 1 selesai! Kamu mendapat ${score} XP!\n\nTerus belajar tentang pemilahan sampah!`
+        );
+      }
+      setShowWasteDetectionGame(false);
+      setSelectedMission(null);
+    }, 100);
   };
 
   // Login Gate
@@ -436,6 +468,14 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
         onSuccess={handleTumblerDetectionSuccess}
         missionTitle={selectedMission?.title}
       />
+
+      {/* Waste Detection Game */}
+      {showWasteDetectionGame && (
+        <WasteDetectionGame
+          onScoreUpdate={handleWasteDetectionScoreUpdate}
+          onClose={() => setShowWasteDetectionGame(false)}
+        />
+      )}
     </>
   );
 };

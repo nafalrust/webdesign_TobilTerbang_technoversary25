@@ -127,6 +127,100 @@ class ApiService {
       reader.readAsDataURL(file);
     });
   }
+
+  // Detect waste from image
+  async detectWaste(imageBase64, useMock = false) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/waste/detect`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image: imageBase64,
+          use_mock: useMock,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error || "Detection failed");
+      }
+
+      return {
+        success: true,
+        detectedCategory: data.detected_category,
+        confidence: data.confidence,
+        categories: data.categories,
+        message: data.message,
+        mock: data.mock,
+        fallback: data.fallback,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || "Terjadi kesalahan saat mendeteksi sampah",
+      };
+    }
+  }
+
+  // Get waste categories
+  async getWasteCategories() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/waste/categories`);
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error || "Failed to get categories");
+      }
+
+      return {
+        success: true,
+        categories: data.categories,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || "Terjadi kesalahan saat mengambil kategori",
+      };
+    }
+  }
+
+  // Verify waste answer
+  async verifyWasteAnswer(detectedCategory, userAnswer) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/waste/verify`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          detected_category: detectedCategory,
+          user_answer: userAnswer,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error || "Verification failed");
+      }
+
+      return {
+        success: true,
+        correct: data.correct,
+        xpEarned: data.xp_earned,
+        message: data.message,
+        correctCategory: data.correct_category,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message || "Terjadi kesalahan saat verifikasi jawaban",
+      };
+    }
+  }
 }
 
 // Create singleton instance
