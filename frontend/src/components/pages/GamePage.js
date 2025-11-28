@@ -2,8 +2,9 @@ import { useState } from "react";
 import GameSidebar from "../layout/GameSidebar";
 import TrashSortingGame from "./TrashSortingGame";
 import TumblerDetectionModal from "./TumblerDetectionModal";
+import ProfilePage from "./ProfilePage";
 import Button from "../ui/Button";
-import { Lock, MapPin, Star, Award, Zap } from "lucide-react";
+import { Lock, MapPin, Star, Award, Zap, User } from "lucide-react";
 
 const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
   const [activeSection, setActiveSection] = useState("main-mission");
@@ -190,6 +191,31 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
         onLogout={() => setIsLoggedIn(false)}
         onExit={handleExitGameWorld}
       />
+
+      {/* Fixed Top Right - Profile & XP Bar */}
+      <div className="fixed top-6 right-6 z-40 flex items-center gap-2">
+        {/* XP Display */}
+        <div className="bg-forest-card/90 backdrop-blur-xl border border-[#45FF90]/20 rounded-xl px-3 py-2 shadow-lg shadow-[#45FF90]/10">
+          <div className="flex items-center gap-2">
+            <Zap size={16} className="text-[#45FF90] fill-current" />
+            <span className="text-sm font-bold text-[#45FF90]">{userXp.toLocaleString()}</span>
+          </div>
+        </div>
+
+        {/* Profile Button */}
+        <button
+          onClick={() => setActiveSection("profile")}
+          className={`bg-forest-card/90 backdrop-blur-xl border rounded-xl px-3 py-2 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-[#45FF90]/20 ${
+            activeSection === "profile"
+              ? "border-[#45FF90]/50 shadow-[#45FF90]/30"
+              : "border-[#45FF90]/20 hover:border-[#45FF90]/40"
+          }`}
+        >
+          <User size={16} strokeWidth={2.5} className={`transition-colors ${
+            activeSection === "profile" ? "text-[#45FF90]" : "text-white group-hover:text-[#45FF90]"
+          }`} />
+        </button>
+      </div>
 
       <div className="min-h-screen pl-0 bg-linear-to-br from-deep-black via-[#0B1410] to-forest-card">
         {/* Main Content Area */}
@@ -422,6 +448,15 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
                 ))}
               </div>
             </div>
+          )}
+
+          {/* Profile Section */}
+          {activeSection === "profile" && (
+            <ProfilePage 
+              userXp={userXp} 
+              userLevel={userLevel} 
+              userName="EcoWarrior" 
+            />
           )}
         </div>
       </div>
