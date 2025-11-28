@@ -256,7 +256,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
           {activeSection === "main-mission" && (
             <div className="animate-in fade-in duration-500">
               {/* Header */}
-              <div className="mb-8">
+              <div className="mb-8 mt-16">
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
                   Main Mission
                 </h1>
@@ -361,7 +361,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
           {/* Side Quest Section */}
           {activeSection === "side-quest" && (
             <div className="animate-in fade-in duration-500">
-              <div className="mb-8">
+              <div className="mb-8 mt-16">
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
                   Side Quest
                 </h1>
@@ -413,7 +413,7 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
           {/* Leaderboard Section */}
           {activeSection === "leaderboard" && (
             <div className="animate-in fade-in duration-500">
-              <div className="mb-8">
+              <div className="mb-8 mt-16">
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
                   Global Leaderboard
                 </h1>
@@ -484,11 +484,13 @@ const GamePage = ({ addXp, userXp, userLevel, onExit }) => {
 
           {/* Profile Section */}
           {activeSection === "profile" && (
-            <ProfilePage 
-              userXp={userXp} 
-              userLevel={userLevel} 
-              userName="EcoWarrior" 
-            />
+            <div className="mt-16">
+              <ProfilePage 
+                userXp={userXp} 
+                userLevel={userLevel} 
+                userName="EcoWarrior" 
+              />
+            </div>
           )}
         </div>
       </div>
