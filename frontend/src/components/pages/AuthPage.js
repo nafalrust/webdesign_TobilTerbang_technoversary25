@@ -126,8 +126,8 @@ const AuthPage = ({ onAuthSuccess, onBack }) => {
         <div className="text-center mb-7">
           <div className="relative inline-flex mb-3">
             <div className="absolute inset-0 blur-xl bg-[#45FF90]/30 animate-pulse"></div>
-            <div className="relative bg-linear-to-br from-[#2E5C35] to-forest-card p-5 rounded-2xl border-2 border-[#45FF90]/30 shadow-2xl">
-              <Leaf size={38} className="text-[#45FF90]" />
+            <div className="relative bg-linear-to-br from-[#2E5C35] to-forest-card p-4 rounded-2xl border-2 border-[#45FF90]/30 shadow-2xl">
+              <Leaf size={32} className="text-[#45FF90]" />
             </div>
           </div>
           <h1 className="text-3xl font-bold mb-1.5">
