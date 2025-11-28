@@ -92,10 +92,10 @@ const AboutPage = ({ setPage }) => {
       `}</style>
 
       {/* Main Content Container */}
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-20 sm:space-y-24 lg:space-y-28">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 space-y-24 sm:space-y-28 lg:space-y-32">
         
         {/* Header Section */}
-        <section className="relative text-center space-y-4 sm:space-y-6 z-10 pt-4 sm:pt-8">
+        <section className="relative text-center space-y-6 sm:space-y-8 lg:space-y-10 z-10 pt-12 sm:pt-16 lg:pt-20">
           <div className="inline-block animate-bounce-slow">
             <div className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full bg-[#2E5C35]/30 border border-[#45FF90]/30 backdrop-blur-md shadow-lg shadow-[#45FF90]/10">
               <Sparkles className="w-4 h-4 text-[#45FF90] animate-pulse" />
@@ -117,8 +117,8 @@ const AboutPage = ({ setPage }) => {
         </section>
 
         {/* How EcoQuest Works Section */}
-        <section className="relative z-10 space-y-8 sm:space-y-10">
-          <div className="text-center">
+        <section className="relative z-10 space-y-10 sm:space-y-12 lg:space-y-14">
+          <div className="text-center space-y-3 sm:space-y-4">
             <h2 className="text-3xl sm:text-4xl font-bold font-ibm text-white mb-3">
               Cara Kerja EcoQuest
             </h2>
@@ -127,7 +127,7 @@ const AboutPage = ({ setPage }) => {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
             {/* Card 1: Bermain */}
             <Card className="group scroll-trigger opacity-0 translate-y-12 transition-all duration-700 hover:shadow-2xl hover:shadow-[#45FF90]/30 hover:-translate-y-3 hover:border-[#45FF90]/50 text-center relative overflow-hidden">
               <div className="absolute inset-0 bg-linear-to-br from-[#45FF90]/5 via-transparent to-[#2E5C35]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -189,8 +189,8 @@ const AboutPage = ({ setPage }) => {
             <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#45FF90]/10 rounded-full blur-3xl"></div>
             <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#2E5C35]/10 rounded-full blur-3xl"></div>
             
-            <div className="relative z-10 text-center space-y-6 sm:space-y-8">
-              <div>
+            <div className="relative z-10 text-center space-y-8 sm:space-y-10 lg:space-y-12">
+              <div className="space-y-3 sm:space-y-4">
                 <h2 className="text-3xl sm:text-4xl font-bold font-ibm text-white mb-3">
                   Potensi Dampak Nyata
                 </h2>
@@ -284,8 +284,8 @@ const AboutPage = ({ setPage }) => {
         </section>
 
         {/* Call-to-Action Section */}
-        <section className="relative z-10 text-center space-y-6 sm:space-y-8 py-8 sm:py-12 scroll-trigger opacity-0 translate-y-12 transition-all duration-700">
-          <div>
+        <section className="relative z-10 text-center space-y-8 sm:space-y-10 lg:space-y-12 py-8 sm:py-12 scroll-trigger opacity-0 translate-y-12 transition-all duration-700">
+          <div className="space-y-4 sm:space-y-6">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-ibm text-white mb-3 sm:mb-4">
               Siap Jadi <span className="text-light-sweep">Eco-Warrior?</span>
             </h2>
