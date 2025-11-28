@@ -86,7 +86,7 @@ const HomePage = ({ setPage }) => {
       <section className="relative min-h-[90vh] flex items-center justify-start px-4 md:px-20 max-w-7xl mx-auto ml-18">
         <div className="my-30">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#2E5C35]/30 border border-[#45FF90]/20 backdrop-blur-md shadow-sm">
+          <div className="inline-flex items-center gap-2 px-5 py-2 mt-7 rounded-full bg-[#2E5C35]/30 border border-[#45FF90]/20 backdrop-blur-md shadow-sm">
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#45FF90]"></span>
             <span className="text-xs font-bold uppercase tracking-wider text-[#45FF90]">
               Gamified Action Platform
@@ -94,10 +94,10 @@ const HomePage = ({ setPage }) => {
           </div>
 
           {/* Hero Title */}
-          <h1 className="text-5xl md:text-7xl my-3 lg:text-8xl font-bold font-ibm tracking-tight leading-[1.1] text-fresh-green">
+          <h1 className="text-5xl text-light-sweep md:text-7xl my-3 lg:text-8xl font-bold font-ibm tracking-tight leading-[1.1] text-[#45FF90]/40">
             Level Up Your
             <br />
-            <span className="text-light-sweep">
+            <span className="text-light-sweep bg-clip-text text-transparent bg-linear-to-r from-[#2E5C35]/30 to-[#45FF90]/25">
               Planet
             </span>
           </h1>
@@ -125,85 +125,91 @@ const HomePage = ({ setPage }) => {
         </div>
       </section>
 
-      {/* Animated Stats Section - From SecondaryLayoutReference.txt */}
+      {/* Animated Stats Section */}
       <section
         ref={statsRef}
-        className="max-w-7xl mx-auto px-4 py-20"
+        className="max-w-5xl mx-auto px-2 py-10 my-10"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-white">
-          Dampak Nyata
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {[
-            { label: "Active Players", val: 12500, suffix: "" },
-            { label: "Trees Planted", val: 8430, suffix: "" },
-            { label: "Carbon Saved", val: 50, suffix: "T" },
-            { label: "Quests Done", val: 25000, suffix: "+" },
-          ].map((stat, idx) => (
-            <div
-              key={idx}
-              className="text-center p-8 bg-[#2E5C35]/20 backdrop-blur-md rounded-2xl border border-[#45FF90]/10 hover:border-[#45FF90]/30 transition-all duration-300"
-            >
-              <h3
-                className="stat-number text-5xl font-bold text-fresh-green mb-3"
-                data-target={stat.val}
+        <div className="relative bg-gradient-to-r from-[#0B1410]/50 via-[#1a2820]/50 to-[#0B1410]/50 backdrop-blur-md rounded-3xl border border-[#45FF90]/20 p-8 md:p-8 overflow-hidden">
+          {/* Glow effect */}
+          <div className="absolute inset-0 bg-[#45FF90]/5 blur-3xl"></div>
+          
+          <div className="font-ibm relative grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+            {[
+              { label: "ACTIVE PLAYERS", val: 12500, suffix: "K", displayVal: "12.5" },
+              { label: "TREES PLANTED", val: 8430, suffix: "", displayVal: "8,430" },
+              { label: "CARBON SAVED", val: 50, suffix: "T", displayVal: "50" },
+              { label: "QUESTS DONE", val: 25000, suffix: "K+", displayVal: "25" },
+            ].map((stat, idx) => (
+              <div
+                key={idx}
+                className="text-center relative"
               >
-                0
-              </h3>
-              {stat.suffix && (
-                <span className="text-5xl font-bold text-fresh-green">
-                  {stat.suffix}
-                </span>
-              )}
-              <p className="text-xs font-bold uppercase tracking-widest text-[#A0C4A8] mt-2">
-                {stat.label}
-              </p>
-            </div>
-          ))}
+                <div className="flex items-center justify-center gap-1 mb-2">
+                  <h3
+                    className="stat-number text-4xl md:text-5xl lg:text-4xl font-bold text-white/75 tracking-tight"
+                    data-target={stat.val}
+                    style={{ textShadow: "0 0 20px rgba(69, 255, 144, 0.5)" }}
+                  >
+                    {stat.displayVal}
+                  </h3>
+                  {stat.suffix && (
+                    <span className="text-3xl md:text-4xl lg:text-4xl font-bold text-white/75" style={{ textShadow: "0 0 20px rgba(69, 255, 144, 0.5)" }}>
+                      {stat.suffix}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-[#A0C4A8]/80">
+                  {stat.label}
+                </p>
+                {/* Divider line (except last item) */}
+                {idx < 3 && (
+                  <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 h-16 w-px bg-gradient-to-b from-transparent via-[#45FF90]/20 to-transparent"></div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Features Section with Scroll Animations */}
       <section className="max-w-7xl mx-auto px-4 pb-20">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-white">
-          Solusi Kami
-        </h2>
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="group scroll-trigger opacity-0 translate-y-12 transition-all duration-700">
+          <Card className="group scroll-trigger opacity-0 translate-y-12 transition-all duration-700 hover:shadow-2xl hover:shadow-[#2E5C35]/40 hover:-translate-y-2 hover:border-[#45FF90]/40">
             <div className="h-14 w-14 bg-linear-to-br from-[#2E5C35] to-[#0B1410] rounded-2xl flex items-center justify-center text-[#45FF90] mb-6 shadow-lg shadow-[#2E5C35]/20 group-hover:scale-110 transition-transform border border-[#45FF90]/20">
               <Gamepad2 size={28} />
             </div>
-            <h3 className="text-2xl font-bold mb-3 text-white">
+            <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-[#45FF90] transition-colors">
               Edu-Game for Kids
             </h3>
-            <p className="text-[#A0C4A8] leading-relaxed">
+            <p className="text-[#A0C4A8] leading-relaxed group-hover:text-white/90 transition-colors">
               Belajar memilah sampah dan ekosistem laut melalui mini-game
               interaktif yang seru dengan visual yang menarik.
             </p>
           </Card>
 
-          <Card className="group relative overflow-hidden scroll-trigger opacity-0 translate-y-12 transition-all duration-700 delay-100">
-            <div className="absolute top-0 right-0 p-24 bg-[#45FF90]/10 rounded-full blur-2xl -mr-10 -mt-10 transition-all group-hover:bg-[#45FF90]/20"></div>
+          <Card className="group relative overflow-hidden scroll-trigger opacity-0 translate-y-12 transition-all duration-700 delay-100 hover:shadow-2xl hover:shadow-[#45FF90]/40 hover:-translate-y-2 hover:border-[#45FF90]/50">
+            <div className="absolute top-0 right-0 p-24 bg-[#45FF90]/10 rounded-full blur-2xl -mr-10 -mt-10 transition-all group-hover:bg-[#45FF90]/30"></div>
             <div className="h-14 w-14 bg-linear-to-br from-[#45FF90] to-[#2E5C35] rounded-2xl flex items-center justify-center text-deep-black mb-6 shadow-lg shadow-[#45FF90]/20 group-hover:scale-110 transition-transform relative z-10 border border-[#45FF90]/20">
               <MapPin size={28} />
             </div>
-            <h3 className="text-2xl font-bold mb-3 text-white relative z-10">
+            <h3 className="text-2xl font-bold mb-3 text-white relative z-10 group-hover:text-[#45FF90] transition-colors">
               Real World Quests
             </h3>
-            <p className="text-[#A0C4A8] leading-relaxed relative z-10">
+            <p className="text-[#A0C4A8] leading-relaxed relative z-10 group-hover:text-white/90 transition-colors">
               Tantangan nyata untuk remaja & dewasa. Tanam pohon, bersihkan
               pantai, dapatkan XP sungguhan.
             </p>
           </Card>
 
-          <Card className="group scroll-trigger opacity-0 translate-y-12 transition-all duration-700 delay-200">
-            <div className="h-14 w-14 bg-linear-to-br from-teal-400 to-[#2E5C35] rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-teal-500/20 group-hover:scale-110 transition-transform border border-white/10">
+          <Card className="group scroll-trigger opacity-0 translate-y-12 transition-all duration-700 delay-200 hover:shadow-2xl hover:shadow-[#45FF90]/40 hover:-translate-y-2 hover:border-[#45FF90]/40">
+            <div className="h-14 w-14 bg-linear-to-br from-[#45FF90] to-[#2E5C35] rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-[#45FF90]/20 group-hover:scale-110 transition-transform border border-[#45FF90]/20">
               <ShieldCheck size={28} />
             </div>
-            <h3 className="text-2xl font-bold mb-3 text-white">
+            <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-[#45FF90] transition-colors">
               AI Verification
             </h3>
-            <p className="text-[#A0C4A8] leading-relaxed">
+            <p className="text-[#A0C4A8] leading-relaxed group-hover:text-white/90 transition-colors">
               Upload foto aksi lingkunganmu. AI kami memverifikasi validitas aksi
               dan memberikan reward instan.
             </p>

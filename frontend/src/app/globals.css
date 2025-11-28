@@ -169,15 +169,15 @@ a, button, [role="button"] {
   .text-light-sweep {
     background: linear-gradient(
       90deg,
-      #4ade80 0%,
-      #4ade80 15%,
-      #45ff90 30%,
-      #ffffff 50%,
-      #45ff90 70%,
-      #4ade80 85%,
-      #4ade80 100%
+      rgba(69, 255, 144, 0.8) 0%,
+      rgba(69, 255, 144, 0.8) 15%,
+      rgba(69, 255, 144, 0.8) 30%,
+      rgba(150, 255, 189, 0.9) 50%,
+      rgba(69, 255, 144, 0.8) 70%,
+      rgba(69, 255, 144, 0.8) 85%,
+      rgba(69, 255, 144, 0.8) 100%
     );
-    background-size: 300% auto;
+    background-size: 300% auto; 
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

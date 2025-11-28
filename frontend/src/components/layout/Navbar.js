@@ -26,8 +26,8 @@ const Navbar = ({
     <nav
       className={`fixed z-65 transition-all duration-300 ${
         scrolled
-          ? "top-7 left-10 right-10 rounded-3xl glass-panel border border-[#45FF90]/20 bg-[#0B1410]/80 shadow-lg"
-          : "top-0 left-0 right-0 rounded-none glass-panel border-b border-[#45FF90]/10 bg-[#0B1410]/80"
+          ? "top-5 left-14 right-14 rounded-3xl glass-panel border border-[#45FF90]/20 bg-[#0B1410]/50 shadow-lg backdrop-blur-2xl"
+          : "top-0 left-0 right-0 rounded-none glass-panel border-b border-[#45FF90]/0 bg-[#0B1410]/0"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,14 +49,14 @@ const Navbar = ({
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-2 bg-forest-card/50 p-1.5 rounded-full border border-[#45FF90]/10 backdrop-blur-md shadow-inner">
+          <div className="hidden md:flex items-center gap-3 bg-forest-card/50 p-1.5 rounded-full border border-[#45FF90]/10 backdrop-blur-md shadow-inner">
             {["Home", "About", "Game", "Contact"].map((item) => (
               <button
                 key={item}
                 onClick={() => setPage(item.toLowerCase())}
                 className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
                   page === item.toLowerCase()
-                    ? "bg-leaf-green text-white shadow-sm"
+                    ? "bg-[#2b8c52]/50 text-white shadow-sm"
                     : "text-[#A0C4A8] hover:text-white"
                 }`}
               >
@@ -77,7 +77,7 @@ const Navbar = ({
                 <Button
                   variant="primary"
                   onClick={onLogout}
-                  className="px-5! py-2! text-sm! rounded-lg! text-deep-black flex items-center gap-2"
+                  className="px-6 py-2 text-sm rounded-3xl text-deep-black flex items-center gap-2"
                 >
                   <LogOut size={16} />
                   Logout
@@ -87,7 +87,7 @@ const Navbar = ({
               <Button
                 variant="primary"
                 onClick={() => setPage("auth")}
-                className="px-5! py-2! text-sm! rounded-lg"
+                className="px-6 py-1.5 text-sm rounded-3xl"
               >
                 Login
               </Button>

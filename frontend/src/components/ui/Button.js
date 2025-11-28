@@ -1,6 +1,6 @@
 const Button = ({ children, variant = "primary", onClick, className = "" }) => {
   const baseStyle =
-    "px-6 py-3 rounded-xl font-bold transition-all duration-300 flex items-center gap-2 relative overflow-hidden group active:scale-95 tracking-wide";
+    "px-6 py-3 rounded-3xl font-bold transition-all duration-300 flex items-center gap-2 relative overflow-hidden group active:scale-95 tracking-wide";
 
   const variants = {
     // Primary: Gradient from Leaf Green to Neon Pop
