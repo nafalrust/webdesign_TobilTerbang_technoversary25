@@ -305,6 +305,122 @@ def detect_tumbler():
             "error": str(e)
         }), 500
 
+
+@app.route('/api/waste/detect', methods=['POST'])
+def detect_waste():
+
+
+    try:
+        # 1. Validasi file upload
+        if 'file' not in request.files:
+            return jsonify({
+                "success": False,
+                "error": "No file uploaded"
+            }), 400
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({
+                "success": False,
+                "error": "Empty filename"
+            }), 400
+
+        # 2. Baca image untuk processing
+        image_bytes = file.read()
+        image = Image.open(io.BytesIO(image_bytes))
+        # Konversi ke RGB jika perlu (untuk JPEG)
+        if image.mode in ("RGBA", "P"):
+            image = image.convert("RGB")
+
+        # 3. Roboflow waste model config
+        waste_model_id = "sampah-organik-dan-anorganik/3"
+        roboflow_url = f"https://detect.roboflow.com/{waste_model_id}?api_key={ROBOFLOW_API_KEY}"
+
+        # 4. Encode image ke base64 untuk API request
+        buffered = io.BytesIO()
+        image.save(buffered, format="JPEG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+
+        # 5. Call Roboflow API
+        response = requests.post(
+            roboflow_url,
+            data=img_str,
+            headers={"Content-Type": "application/x-www-form-urlencoded"}
+        )
+
+        if response.status_code != 200:
+            return jsonify({
+                "success": False,
+                "error": f"Roboflow API error: {response.text}"
+            }), 500
+
+        detection_result = response.json()
+        predictions = detection_result.get('predictions', [])
+
+        # 6. Ambil prediksi utama (class dengan confidence tertinggi)
+        if predictions:
+            top_pred = max(predictions, key=lambda x: x.get('confidence', 0))
+            pred_class = top_pred.get('class', '').lower()
+            if pred_class in ['organic', 'organik']:
+                result = 'organik'
+            elif pred_class in ['anorganic', 'anorganik', 'inorganic']:
+                result = 'anorganik'
+            else:
+                result = pred_class or 'unknown'
+            confidence = top_pred.get('confidence', 0)
+        else:
+            result = 'unknown'
+            confidence = 0
+
+        # 7. Tulis kelas di kanan bawah gambar
+        from PIL import ImageDraw, ImageFont
+        draw = ImageDraw.Draw(image)
+        label = result
+        # Pilih font default (tanpa eksternal font)
+        try:
+            font = ImageFont.truetype("arial.ttf", 32)
+        except:
+            font = ImageFont.load_default()
+        text_w, text_h = draw.textsize(label, font=font)
+        img_w, img_h = image.size
+        margin = 10
+        x = img_w - text_w - margin
+        y = img_h - text_h - margin
+        # Kotak background putih transparan
+        draw.rectangle([x-margin, y-margin, x+text_w+margin, y+text_h+margin], fill=(255,255,255,200))
+        draw.text((x, y), label, fill="black", font=font)
+
+        # 8. Upload ke Supabase Storage (bucket sama dengan tumbler)
+        bucket_name = 'TobilGambar'
+        unique_filename = f"waste_{uuid.uuid4().hex}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpeg"
+        img_byte_arr = io.BytesIO()
+        image.save(img_byte_arr, format='JPEG')
+        img_byte_arr.seek(0)
+        try:
+            supabase.storage.from_(bucket_name).upload(
+                unique_filename,
+                img_byte_arr.getvalue(),
+                file_options={"content-type": "image/jpeg"}
+            )
+            image_url = supabase.storage.from_(bucket_name).get_public_url(unique_filename)
+        except Exception as storage_error:
+            image_url = None
+
+        return jsonify({
+            "success": True,
+            "prediction": result,
+            "confidence": confidence,
+            "image_url": image_url,
+            "filename": unique_filename
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+    
+
+
 # ============================================
 # PROFILE PHOTO
 # ============================================
@@ -360,32 +476,26 @@ def upload_profile_photo():
         # 4. Baca file
         file_content = file.read()
         
-        # 5. Upload ke Supabase Storage dengan nama = user_id
+        # 5. Upload ke Supabase Storage dengan nama random (tanpa user_id)
         bucket_name = 'TobilFotoProfil'
-        filename = f"{user_id}.{file_ext}"
+        unique_filename = f"photo_{uuid.uuid4().hex[:16]}.{file_ext}"
         
-        # Hapus foto lama jika ada
-        try:
-            supabase.storage.from_(bucket_name).remove([filename])
-        except:
-            pass  # Ignore jika file tidak ada
-        
-        # Upload foto baru
+        # Upload foto baru (no delete, just new file)
         supabase.storage.from_(bucket_name).upload(
-            filename,
+            unique_filename,
             file_content,
             file_options={"content-type": f"image/{file_ext}"}
         )
         
         # 6. Get public URL
-        photo_url = supabase.storage.from_(bucket_name).get_public_url(filename)
+        photo_url = supabase.storage.from_(bucket_name).get_public_url(unique_filename)
         
         return jsonify({
             "success": True,
             "message": "Profile photo uploaded successfully",
             "user_id": user_id,
             "photo_url": photo_url,
-            "filename": filename
+            "filename": unique_filename
         }), 200
         
     except Exception as e:
