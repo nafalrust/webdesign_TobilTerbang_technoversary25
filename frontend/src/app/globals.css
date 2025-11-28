@@ -12,7 +12,8 @@
 
   /* Font Families */
   --font-family-mono: "IBM Plex Mono", "Courier New", monospace;
-  --font-family-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-family-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   --font-family-grotesk: "Space Grotesk", sans-serif;
 
   /* Font Sizes */
@@ -32,7 +33,8 @@
 
   /* Animations */
   --animate-shine: shine 1.5s infinite;
-  --animate-bounce-in: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  --animate-bounce-in: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+    forwards;
   --animate-gradient-x: gradient-x 15s ease infinite;
   --animate-fade-in-up: fade-in-up 1s ease-out forwards;
   --animate-slide-down: slide-down 1s ease forwards;
@@ -144,7 +146,9 @@
   cursor: default;
 }
 
-a, button, [role="button"] {
+a,
+button,
+[role="button"] {
   cursor: pointer;
 }
 
@@ -177,10 +181,91 @@ a, button, [role="button"] {
       rgba(69, 255, 144, 0.8) 85%,
       rgba(69, 255, 144, 0.8) 100%
     );
-    background-size: 300% auto; 
+    background-size: 300% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: light-sweep 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
   }
+
+  /* Float animation for particles */
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+}
+
+/* Float keyframe animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px);
+  }
+}
+
+/* Google Button Custom Styling */
+.google-login-wrapper {
+  width: 100% !important;
+  display: block !important;
+}
+
+.google-login-wrapper > div {
+  width: 100% !important;
+}
+
+.google-login-wrapper > div > div {
+  width: 100% !important;
+}
+
+.google-login-wrapper iframe {
+  width: 100% !important;
+}
+
+.google-login-wrapper div[data-testid] {
+  width: 100% !important;
+}
+
+.google-login-wrapper div[role="button"] {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: 48px !important;
+  border-radius: 0.5rem !important;
+  border: 2px solid rgba(46, 92, 53, 0.5) !important;
+  background: #0b1410 !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.google-login-wrapper div[role="button"]:hover {
+  border-color: #45ff90 !important;
+  background: rgba(11, 20, 16, 0.8) !important;
+  box-shadow: 0 10px 15px -3px rgba(69, 255, 144, 0.2) !important;
+}
+
+.google-login-wrapper div[role="button"] > div {
+  font-family: inherit !important;
+  font-weight: 600 !important;
+  color: #45ff90 !important;
+  font-size: 1rem !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+.google-login-wrapper svg {
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
 }
