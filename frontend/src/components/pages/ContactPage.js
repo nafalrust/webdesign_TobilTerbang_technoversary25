@@ -76,7 +76,7 @@ const ContactPage = () => {
       `}</style>
 
       {/* Header Section */}
-      <div className="text-center mb-12 relative z-10">
+      <div className="text-center mt-7 mb-12 relative z-10">
         <div className="inline-block p-3 rounded-full bg-[#45FF90]/10 backdrop-blur-md mb-4 border border-[#45FF90]/30">
           <Send size={24} className="text-[#45FF90]" />
         </div>
